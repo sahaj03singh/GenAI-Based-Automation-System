@@ -1,9 +1,9 @@
 SITE_CONFIG = {
 
-    # ── Base URL ──────────────────────────────────────────────────
+    # ── Base URL
     "base_url": "https://www.automationexercise.com",
 
-    # ── Navigation paths ──────────────────────────────────────────
+    # ── Navigation paths 
     "navigation_paths": {
         "home":     "/",
         "login":    "/login",
@@ -14,7 +14,7 @@ SITE_CONFIG = {
         "cart":     "/view_cart",
     },
 
-    # ── Page ready signals ────────────────────────────────────────
+    # ── Page ready signals 
     "page_ready_signals": {
         "login":    ("name",  "email"),
         "signup":   ("name",  "email"),
@@ -29,7 +29,7 @@ SITE_CONFIG = {
         "checkout": ("tag",   "body"),
     },
 
-    # ── URL fragments to identify pages ──────────────────────────
+    # ── URL fragments to identify pages 
     "page_url_fragments": {
         "login":          "/login",
         "products":       "/products",
@@ -40,7 +40,7 @@ SITE_CONFIG = {
         "home":           "/",
     },
 
-    # ── UI action keywords ────────────────────────────────────────
+    # ── UI action keywords 
     "ui_action_keywords": [
         "button", "tab", "modal", "link", "submit",
         "add to cart", "view cart", "proceed", "place order",
@@ -50,7 +50,7 @@ SITE_CONFIG = {
         "price less than", "price more than",
     ],
 
-    # ── Navigation session flags ──────────────────────────────────
+    # ── Navigation session flags 
     "navigation_session_flags": {
         "on_products_page": ["products"],
         "logged_in":        ["home", "products", "cart"],
@@ -67,7 +67,7 @@ SITE_CONFIG = {
         ],
     },
 
-    # ── Verify keywords ───────────────────────────────────────────
+    # ── Verify keywords 
     "verify_keywords": {
         "logged in":         ["logout", "log out", "sign out"],
         "order confirmed":   ["congratulations", "order placed",
@@ -105,7 +105,7 @@ SITE_CONFIG = {
         "cart contains item",
     ],
 
-    # ── Session count verifications ───────────────────────────────
+    # ── Session count verifications 
     "count_verifications": {
         "cart is empty":         {"session_var": "cart_count",
                                   "operator": "eq",  "value": 0},
@@ -121,7 +121,7 @@ SITE_CONFIG = {
                                   "operator": "gt",  "value": 0},
     },
 
-    # ── Modal button locators ─────────────────────────────────────
+    # ── Modal button locators
     "modal_buttons": {
         "modal_locator": (
             "xpath",
@@ -208,10 +208,10 @@ SITE_CONFIG = {
         ),
     },
 
-    # ── Intent actions ────────────────────────────────────────────
+    # ── Intent actions
     "intent_actions": {
 
-        # ── Login ─────────────────────────────────────────────────
+        # ── Login 
         "login_email": {
             "type":        "form_field",
             "match":       ["email", "e-mail", "username",
@@ -256,7 +256,7 @@ SITE_CONFIG = {
             "after": "confirm_login",
         },
 
-        # ── Search ────────────────────────────────────────────────
+        # ── Search 
         "search_input": {
             "type":         "form_field",
             "match":        ["search bar", "search box",
@@ -283,7 +283,7 @@ SITE_CONFIG = {
             ],
         },
 
-        # ── Products tab ──────────────────────────────────────────
+        # ── Products tab 
         "products_tab": {
             "type":  "click_strategies",
             "match": ["products tab", "click products",
@@ -297,7 +297,7 @@ SITE_CONFIG = {
             ],
         },
 
-        # ── Cart tab ──────────────────────────────────────────────
+        # ── Cart tab 
         "cart_tab": {
             "type":  "click_strategies",
             "match": ["cart tab", "go to cart",
@@ -308,7 +308,7 @@ SITE_CONFIG = {
             ],
         },
 
-        # ── Product browsing ──────────────────────────────────────
+        # ── Product browsing 
         "view_product": {
             "type":  "click_first_match",
             "match": ["view product", "view item",
@@ -326,7 +326,7 @@ SITE_CONFIG = {
             "wait_for_url_fragment": "/product_details/",
         },
 
-        # ── Price filter intents (filter_compare) ─────────────────
+        # ── Price filter intents (filter_compare) 
         # These read visible prices and compare in Python
         "select_cheapest_product": {
             "type":  "filter_compare",
@@ -405,7 +405,7 @@ SITE_CONFIG = {
             "wait_for_url_fragment": "/product_details/",
         },
 
-        # ── Variant selection (click_option_with_value) ───────────
+        # ── Variant selection (click_option_with_value) 
         # Generic — site-specific aliases live in value_aliases
         "select_size": {
             "type":  "click_option_with_value",
@@ -475,7 +475,7 @@ SITE_CONFIG = {
             ],
         },
 
-        # ── Quantity ──────────────────────────────────────────────
+        # ── Quantity 
         "quantity_input": {
             "type":        "form_field",
             "match":       ["quantity", "qty", "how many",
@@ -486,7 +486,7 @@ SITE_CONFIG = {
             "data_key":    "quantity",
         },
 
-        # ── Add to cart ───────────────────────────────────────────
+        # ── Add to cart 
         "add_to_cart": {
             "type":  "listing_item_action",
             "match": ["add to cart", "add to bag",
@@ -518,7 +518,7 @@ SITE_CONFIG = {
             "count_key": "cart_count",
         },
 
-        # ── Cart modal ────────────────────────────────────────────
+        # ── Cart modal
         "continue_shopping": {
             "type":   "modal_dismiss",
             "match":  ["continue shopping", "keep shopping"],
@@ -539,7 +539,7 @@ SITE_CONFIG = {
             ],
         },
 
-        # ── Cart management ───────────────────────────────────────
+        # ── Cart management 
         "remove_from_cart": {
             "type":  "click_strategies",
             "match": ["remove product", "remove item",
@@ -623,7 +623,7 @@ SITE_CONFIG = {
             "wait_for_url_change": True,
         },
 
-        # ── Payment ───────────────────────────────────────────────
+        # ── Payment 
         "card_name": {
             "type":        "form_field",
             "match":       ["card name", "name on card",
@@ -693,7 +693,7 @@ SITE_CONFIG = {
             ],
         },
 
-        # ── Scroll / Recommended ──────────────────────────────────
+        # ── Scroll / Recommended 
         "scroll_to_recommended": {
             "type":          "js_scroll",
             "match":         ["scroll", "recommended items",
