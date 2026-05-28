@@ -1,0 +1,21 @@
+Given the following HTML DOM snippet:
+
+{{DOM}}
+
+Generate the most stable and robust XPath for the element matching this intent:
+
+{{INTENT}}
+
+
+
+STRICT LOCATOR RULES:
+
+- Prefer unique container elements
+- Avoid partial class matches like contains(@class,'item')
+- Use exact class match when possible
+- Avoid matching nested repeated elements
+- Ensure locator returns ONLY top-level elements
+
+Example:
+❌ //div[contains(@class,'inventory_item')]
+✅ //div[@class='inventory_item']

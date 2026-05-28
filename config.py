@@ -1,0 +1,14 @@
+# Models
+PLANNER_MODEL = "gpt-5.4-mini"
+GENERATOR_MODEL = "gpt-5.4-mini"
+REPAIR_MODEL = "gpt-5.4-mini"
+CLASSIFIER_MODEL = "gpt-5.4-mini"
+
+# Temperatures
+TEMPERATURE_PLANNER = 0.2
+TEMPERATURE_GEN = 0.2
+TEMPERATURE_REPAIR = 0.2
+TEMPERATURE_CLASSIFIER = 0.2
+
+# Other settings
+MAX_REPAIR_LOOPS = 2

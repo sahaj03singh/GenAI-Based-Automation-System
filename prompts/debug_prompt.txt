@@ -1,0 +1,38 @@
+You are a senior QA automation engineer.
+
+Fix the following Selenium test.
+
+Code:
+{{CODE}}
+
+Error:
+{{ERROR}}
+
+Failed XPath:
+{{FAILED_XPATH}}
+
+DOM Snippet:
+{{DOM}}
+
+Instruction:
+{{CATEGORY_INSTRUCTION}}
+
+Rules:
+- Return ONLY valid Python Selenium code
+- Do NOT include explanation
+- Do NOT include markdown
+- Fix ONLY the failing part
+- Keep structure same
+
+CRITICAL RULES:
+
+- You MUST return the FULL test file
+- Do NOT return only partial fixes
+- Do NOT remove any existing test cases
+- Do NOT reduce number of test functions
+- Preserve all existing tests
+- Only fix the failing parts
+
+If you return partial code → response is INVALID
+
+Output:

@@ -1,0 +1,32 @@
+# Secrets — NEVER commit these
+.env
+*.key
+config_secrets.py
+**/credentials*
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+venv/
+.venv/
+env/
+
+# Framework runtime artifacts
+locators/cache.db
+locators/*.db
+locators_memory.json
+reports/
+tests_generated/test_steps.json
+*_DRAFT.py
+site_config.*.py
+
+# Browser profile & runtime state
+chrome_profile/
+memory/
+screenshots/
+*.png
+
+# tooling
+.pytest_cache/
+.DS_Store

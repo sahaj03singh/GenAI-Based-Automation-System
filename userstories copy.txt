@@ -1,0 +1,791 @@
+USER STORY 1: Login and Authentication Flow
+
+TEST CASE 1: Verify successful login with valid credentials and correct navigation
+
+STEP 1: Open the SauceDemo website in a web browser
+STEP 2: Wait until the login page is fully loaded and interactive
+STEP 3: Locate the username input field and enter "standard_user"
+STEP 4: Locate the password input field and enter "secret_sauce"
+STEP 5: Verify that both input fields contain the correct values
+STEP 6: Click the login button to initiate authentication
+STEP 7: Wait for the page to navigate to the next screen
+STEP 8: Verify that the user is redirected to the inventory page
+STEP 9: Confirm that product listings are displayed on the screen
+STEP 10: Ensure no error messages are visible on the page
+
+
+TEST CASE 2: Verify login failure with incorrect password
+
+STEP 1: Open the SauceDemo login page
+STEP 2: Ensure that the login form is visible
+STEP 3: Enter username "standard_user"
+STEP 4: Enter password "wrong_password"
+STEP 5: Click the login button
+STEP 6: Wait for the system to process the request
+STEP 7: Verify that the user is not redirected to another page
+STEP 8: Confirm that an error message is displayed
+STEP 9: Validate that the error message indicates invalid credentials
+STEP 10: Ensure that the login page remains accessible
+
+
+USER STORY 2: Product Interaction and Validation
+
+TEST CASE 3: Verify product list visibility after login
+
+STEP 1: Open the SauceDemo application
+STEP 2: Login using valid credentials
+STEP 3: Wait for the inventory page to load
+STEP 4: Identify the product list section
+STEP 5: Verify that multiple products are displayed
+STEP 6: Confirm that each product has a name
+STEP 7: Confirm that each product has a price
+STEP 8: Ensure product images are visible
+STEP 9: Verify that add to cart buttons are present
+STEP 10: Ensure page layout is consistent
+
+
+TEST CASE 4: Verify adding a product to cart and UI changes
+
+STEP 1: Login to the application
+STEP 2: Wait for inventory page to load
+STEP 3: Identify the first product in the list
+STEP 4: Capture the product name for verification
+STEP 5: Click the "Add to cart" button
+STEP 6: Observe the button text change to "Remove"
+STEP 7: Verify that cart badge count increases to 1
+STEP 8: Confirm that no UI errors occur
+STEP 9: Ensure the product remains visible
+STEP 10: Validate that page is still responsive
+
+
+TEST CASE 5: Verify removing a product from the cart
+
+STEP 1: Login to the application
+STEP 2: Add a product to the cart
+STEP 3: Verify cart badge shows 1 item
+STEP 4: Click the "Remove" button
+STEP 5: Observe button text reverting to "Add to cart"
+STEP 6: Verify cart badge updates to 0
+STEP 7: Ensure product remains in the inventory list
+STEP 8: Confirm no error message is displayed
+STEP 9: Validate UI remains stable
+STEP 10: Ensure no unexpected navigation occurs
+
+
+USER STORY 3: Cart Functionality
+
+TEST CASE 6: Verify cart page navigation and product visibility
+
+STEP 1: Login to the application
+STEP 2: Add a product to the cart
+STEP 3: Click on the cart icon
+STEP 4: Wait for cart page to load
+STEP 5: Verify product is listed in the cart
+STEP 6: Confirm product name matches selection
+STEP 7: Confirm product price is correct
+STEP 8: Verify quantity is displayed correctly
+STEP 9: Ensure remove button is available
+STEP 10: Confirm no additional items are present
+
+
+TEST CASE 7: Verify cart functionality with multiple items
+
+STEP 1: Login to the application
+STEP 2: Add two different products to the cart
+STEP 3: Verify cart badge shows 2 items
+STEP 4: Navigate to the cart page
+STEP 5: Verify both products are listed
+STEP 6: Confirm names and prices match selections
+STEP 7: Ensure quantities are correct
+STEP 8: Validate remove buttons for both items
+STEP 9: Confirm UI consistency
+STEP 10: Ensure no errors occur
+
+
+USER STORY 4: Checkout Flow
+
+TEST CASE 8: Verify checkout initiation process
+
+STEP 1: Login to the application
+STEP 2: Add a product to the cart
+STEP 3: Navigate to the cart page
+STEP 4: Click on the checkout button
+STEP 5: Wait for checkout page to load
+STEP 6: Verify checkout form is displayed
+STEP 7: Confirm input fields are visible
+STEP 8: Validate buttons are clickable
+STEP 9: Ensure no error message is displayed
+STEP 10: Confirm correct navigation
+
+
+TEST CASE 9: Verify entering checkout information
+
+STEP 1: Login to the application
+STEP 2: Add product and go to checkout
+STEP 3: Enter first name "John"
+STEP 4: Enter last name "Doe"
+STEP 5: Enter postal code "12345"
+STEP 6: Verify all fields are filled correctly
+STEP 7: Click continue button
+STEP 8: Wait for next page
+STEP 9: Verify navigation success
+STEP 10: Ensure no validation error appears
+
+
+TEST CASE 10: Verify successful checkout completion
+
+STEP 1: Login and add product
+STEP 2: Proceed to checkout
+STEP 3: Enter valid user details
+STEP 4: Click continue
+STEP 5: Verify overview page
+STEP 6: Validate product details
+STEP 7: Click finish button
+STEP 8: Wait for confirmation page
+STEP 9: Verify success message displayed
+STEP 10: Ensure order completion confirmed
+
+
+USER STORY 5: Navigation and UI
+
+TEST CASE 11: Verify menu functionality
+
+STEP 1: Login to application
+STEP 2: Click menu button
+STEP 3: Wait for menu to open
+STEP 4: Verify menu options displayed
+STEP 5: Click each option one by one
+STEP 6: Validate navigation for each option
+STEP 7: Ensure menu closes correctly
+STEP 8: Confirm UI consistency
+STEP 9: Verify no errors appear
+STEP 10: Ensure responsiveness
+
+
+TEST CASE 12: Verify logout functionality
+
+STEP 1: Login to application
+STEP 2: Open menu
+STEP 3: Click logout option
+STEP 4: Wait for navigation
+STEP 5: Verify redirected to login page
+STEP 6: Confirm session is cleared
+STEP 7: Ensure no user data remains
+STEP 8: Validate login form visible
+STEP 9: Confirm no errors displayed
+STEP 10: Ensure system stability
+
+
+USER STORY 6: UI Validation
+
+TEST CASE 13: Verify product sorting functionality
+
+STEP 1: Login to application
+STEP 2: Locate sorting dropdown
+STEP 3: Select "Price Low to High"
+STEP 4: Wait for sorting
+STEP 5: Verify product order updated
+STEP 6: Select "Price High to Low"
+STEP 7: Verify order updates again
+STEP 8: Confirm UI reflects selection
+STEP 9: Ensure no glitches
+STEP 10: Validate functionality
+
+
+TEST CASE 14: Verify page refresh behavior
+
+STEP 1: Login to application
+STEP 2: Add product to cart
+STEP 3: Refresh page
+STEP 4: Wait for reload
+STEP 5: Verify user remains logged in
+STEP 6: Confirm cart state retained
+STEP 7: Validate product still added
+STEP 8: Ensure UI consistency
+STEP 9: Check no errors displayed
+STEP 10: Confirm system stability
+
+
+USER STORY 7: Edge Cases
+
+TEST CASE 15: Verify behavior with empty cart
+
+STEP 1: Login to application
+STEP 2: Navigate to cart without adding product
+STEP 3: Verify empty cart message
+STEP 4: Ensure no items listed
+STEP 5: Confirm UI layout is correct
+STEP 6: Check navigation buttons
+STEP 7: Validate no errors appear
+STEP 8: Ensure responsiveness
+STEP 9: Confirm expected behavior
+STEP 10: Validate stability
+
+
+TEST CASE 16: Verify multiple add/remove actions
+
+STEP 1: Login to application
+STEP 2: Add product to cart
+STEP 3: Remove product
+STEP 4: Repeat add/remove multiple times
+STEP 5: Verify cart updates correctly
+STEP 6: Confirm no duplicate entries
+STEP 7: Validate UI behavior
+STEP 8: Ensure no crash occurs
+STEP 9: Check consistency
+STEP 10: Confirm stability
+
+
+TEST CASE 17: Verify session persistence
+
+STEP 1: Login to application
+STEP 2: Refresh page multiple times
+STEP 3: Verify session remains active
+STEP 4: Navigate between pages
+STEP 5: Confirm login state maintained
+STEP 6: Validate cart data persistence
+STEP 7: Ensure no logout occurs
+STEP 8: Check UI stability
+STEP 9: Verify functionality intact
+STEP 10: Confirm no errors
+
+
+TEST CASE 18: Verify invalid input handling
+
+STEP 1: Login to application
+STEP 2: Navigate to checkout
+STEP 3: Enter invalid data in fields
+STEP 4: Click continue
+STEP 5: Verify validation errors displayed
+STEP 6: Confirm user not redirected
+STEP 7: Validate error messages
+STEP 8: Ensure form remains usable
+STEP 9: Confirm system stability
+STEP 10: Ensure no crash
+
+
+TEST CASE 19: Verify long input handling
+
+STEP 1: Login to application
+STEP 2: Navigate to checkout
+STEP 3: Enter long strings in input fields
+STEP 4: Submit form
+STEP 5: Verify system handles input
+STEP 6: Confirm no UI break
+STEP 7: Validate error handling
+STEP 8: Ensure responsiveness
+STEP 9: Check stability
+STEP 10: Confirm no crash
+
+
+TEST CASE 20: Verify logout during active session
+
+STEP 1: Login to application
+STEP 2: Add product to cart
+STEP 3: Start checkout process
+STEP 4: Open menu
+
+STEP 5: Click logout
+STEP 6: Verify redirected to login page
+STEP 7: Confirm session ended
+STEP 8: Validate cart cleared
+STEP 9: Ensure no access to previous state
+STEP 10: Confirm system resets correctly
+
+
+
+
+
+
+
+
+
+
+
+TEST CASE 11: Add and remove till cart empty repeatedly
+STEP 1: Open homepage
+STEP 2: Click product
+STEP 3: Add to cart
+STEP 4: Open cart
+STEP 5: Remove product
+STEP 6: Verify empty
+STEP 7: Add product
+STEP 8: Verify cart
+STEP 9: Remove product
+STEP 10: Verify empty
+STEP 11: Add product
+STEP 12: Verify cart
+STEP 13: Remove product
+STEP 14: Verify empty
+STEP 15: Add product
+STEP 16: Verify cart
+STEP 17: Remove product
+STEP 18: Verify empty
+STEP 19: Add product
+STEP 20: Verify cart
+STEP 21: Remove product
+STEP 22: Verify empty
+STEP 23: Add product
+STEP 24: Verify cart
+STEP 25: Remove product
+STEP 26: Verify empty
+STEP 27: Refresh page
+STEP 28: Verify state
+STEP 29: Confirm UI
+STEP 30: End test
+
+TEST CASE 12: Invalid navigation handling
+STEP 1: Open homepage
+STEP 2: Navigate to invalid URL
+STEP 3: Verify error page
+STEP 4: Navigate back
+STEP 5: Verify homepage
+STEP 6: Click product
+STEP 7: Verify product page
+STEP 8: Navigate back
+STEP 9: Navigate invalid URL again
+STEP 10: Verify error handling
+STEP 11: Navigate homepage
+STEP 12: Click product
+STEP 13: Add to cart
+STEP 14: Open cart
+STEP 15: Verify product
+STEP 16: Navigate invalid URL
+STEP 17: Return homepage
+STEP 18: Verify cart
+STEP 19: Remove product
+STEP 20: Verify empty
+STEP 21: Navigate invalid URL
+STEP 22: Verify error
+STEP 23: Navigate homepage
+STEP 24: Verify UI
+STEP 25: Refresh page
+STEP 26: Verify stability
+STEP 27: Click product
+STEP 28: Verify page
+STEP 29: Navigate back
+STEP 30: End test
+
+TEST CASE 13: Repeated checkout attempts
+STEP 1: Open homepage
+STEP 2: Click product
+STEP 3: Add to cart
+STEP 4: Open cart
+STEP 5: Proceed checkout
+STEP 6: Enter details
+STEP 7: Submit order
+STEP 8: Verify success
+STEP 9: Navigate homepage
+STEP 10: Add product
+STEP 11: Open cart
+STEP 12: Proceed checkout
+STEP 13: Enter details
+STEP 14: Submit order
+STEP 15: Verify success
+STEP 16: Repeat add product
+STEP 17: Open cart
+STEP 18: Checkout
+STEP 19: Submit
+STEP 20: Verify success
+STEP 21: Navigate homepage
+STEP 22: Verify cart empty
+STEP 23: Add product
+STEP 24: Checkout
+STEP 25: Submit
+STEP 26: Verify
+STEP 27: Refresh page
+STEP 28: Verify state
+STEP 29: Confirm stability
+STEP 30: End test
+
+TEST CASE 14: Cart recovery after refresh
+STEP 1: Open homepage
+STEP 2: Click product
+STEP 3: Add to cart
+STEP 4: Refresh page
+STEP 5: Verify cart
+STEP 6: Add product
+STEP 7: Refresh page
+STEP 8: Verify cart
+STEP 9: Remove product
+STEP 10: Refresh page
+STEP 11: Verify cart
+STEP 12: Add product
+STEP 13: Verify cart
+STEP 14: Refresh page
+STEP 15: Verify persistence
+STEP 16: Open cart
+STEP 17: Verify items
+STEP 18: Remove all
+STEP 19: Refresh page
+STEP 20: Verify empty
+STEP 21: Add product
+STEP 22: Verify cart
+STEP 23: Refresh page
+STEP 24: Verify cart
+STEP 25: Remove product
+STEP 26: Verify empty
+STEP 27: Refresh page
+STEP 28: Verify empty
+STEP 29: Confirm stability
+STEP 30: End test
+
+TEST CASE 15: Search filter and cart combined
+STEP 1: Open homepage
+STEP 2: Click product
+STEP 3: Add to cart
+STEP 4: Navigate back
+STEP 5: Click product
+STEP 6: Add to cart
+STEP 7: Open cart
+STEP 8: Verify items
+STEP 9: Remove one
+STEP 10: Verify update
+STEP 11: Add another
+STEP 12: Verify cart
+STEP 13: Refresh page
+STEP 14: Verify cart
+STEP 15: Remove product
+STEP 16: Verify empty
+STEP 17: Add product
+STEP 18: Verify cart
+STEP 19: Open cart
+STEP 20: Verify items
+STEP 21: Remove one
+STEP 22: Verify
+STEP 23: Add again
+STEP 24: Verify
+STEP 25: Refresh
+STEP 26: Verify
+STEP 27: Remove all
+STEP 28: Verify empty
+STEP 29: Confirm UI
+STEP 30: End test
+
+TEST CASE 16: Navigation + cart + checkout mixed
+STEP 1: Open homepage
+STEP 2: Click product
+STEP 3: Add to cart
+STEP 4: Navigate back
+STEP 5: Click product
+STEP 6: Add to cart
+STEP 7: Open cart
+STEP 8: Verify items
+STEP 9: Proceed checkout
+STEP 10: Enter details
+STEP 11: Submit order
+STEP 12: Verify success
+STEP 13: Navigate homepage
+STEP 14: Add product
+STEP 15: Open cart
+STEP 16: Verify
+STEP 17: Remove product
+STEP 18: Verify empty
+STEP 19: Add again
+STEP 20: Verify cart
+STEP 21: Refresh page
+STEP 22: Verify persistence
+STEP 23: Checkout
+STEP 24: Submit
+STEP 25: Verify success
+STEP 26: Navigate homepage
+STEP 27: Verify UI
+STEP 28: Confirm behavior
+STEP 29: Confirm stability
+STEP 30: End test
+
+TEST CASE 17: Continuous long user journey
+STEP 1: Open homepage
+STEP 2: Click product
+STEP 3: Add to cart
+STEP 4: Navigate back
+STEP 5: Click product
+STEP 6: Add to cart
+STEP 7: Open cart
+STEP 8: Verify
+STEP 9: Remove one
+STEP 10: Verify
+STEP 11: Add again
+STEP 12: Verify
+STEP 13: Refresh page
+STEP 14: Verify
+STEP 15: Navigate homepage
+STEP 16: Click product
+STEP 17: Add to cart
+STEP 18: Open cart
+STEP 19: Verify
+STEP 20: Checkout
+STEP 21: Enter details
+STEP 22: Submit
+STEP 23: Verify success
+STEP 24: Navigate homepage
+STEP 25: Verify cart empty
+STEP 26: Add product
+STEP 27: Verify
+STEP 28: Remove
+STEP 29: Verify empty
+STEP 30: End test
+
+TEST CASE 18: High frequency repeated actions
+STEP 1: Open homepage
+STEP 2: Click product
+STEP 3: Click product
+STEP 4: Click product
+STEP 5: Add to cart
+STEP 6: Add to cart
+STEP 7: Open cart
+STEP 8: Verify
+STEP 9: Remove
+STEP 10: Add
+STEP 11: Remove
+STEP 12: Add
+STEP 13: Verify
+STEP 14: Refresh
+STEP 15: Verify
+STEP 16: Add
+STEP 17: Remove
+STEP 18: Add
+STEP 19: Remove
+STEP 20: Add
+STEP 21: Verify
+STEP 22: Open cart
+STEP 23: Verify
+STEP 24: Remove
+STEP 25: Verify
+STEP 26: Add
+STEP 27: Verify
+STEP 28: Refresh
+STEP 29: Verify
+STEP 30: End test
+
+TEST CASE 19: Long mixed functional flow
+STEP 1: Open homepage
+STEP 2: Click product
+STEP 3: Add to cart
+STEP 4: Navigate back
+STEP 5: Click product
+STEP 6: Add to cart
+STEP 7: Open cart
+STEP 8: Verify
+STEP 9: Remove one
+STEP 10: Verify
+STEP 11: Add another
+STEP 12: Verify
+STEP 13: Refresh page
+STEP 14: Verify
+STEP 15: Checkout
+STEP 16: Enter details
+STEP 17: Submit
+STEP 18: Verify success
+STEP 19: Navigate homepage
+STEP 20: Add product
+STEP 21: Verify
+STEP 22: Remove
+STEP 23: Verify empty
+STEP 24: Add
+STEP 25: Verify
+STEP 26: Refresh
+STEP 27: Verify
+STEP 28: Confirm UI
+STEP 29: Confirm behavior
+STEP 30: End test
+
+TEST CASE 20: Extreme system behavior test
+STEP 1: Open homepage
+STEP 2: Click product
+STEP 3: Add to cart
+STEP 4: Click product
+STEP 5: Add to cart
+STEP 6: Click product
+STEP 7: Add to cart
+STEP 8: Open cart
+STEP 9: Verify items
+STEP 10: Remove one
+STEP 11: Add again
+STEP 12: Remove again
+STEP 13: Add again
+STEP 14: Refresh page
+STEP 15: Verify cart
+STEP 16: Navigate homepage
+STEP 17: Add product
+STEP 18: Verify
+STEP 19: Remove
+STEP 20: Verify empty
+STEP 21: Add product
+STEP 22: Verify cart
+STEP 23: Checkout
+STEP 24: Enter details
+STEP 25: Submit
+STEP 26: Verify success
+STEP 27: Navigate homepage
+STEP 28: Verify reset
+STEP 29: Confirm stability
+STEP 30: End test
+
+
+
+TEST CASE 1: Search → Filter → Add to Basket
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Type in search bar portable monitor 2k 16 inch
+STEP 4: Click search button
+STEP 5: Sort by price low to high
+STEP 6: Select the product with minimum customer rating of 4.3
+STEP 7: Verify product detail page
+STEP 8: Click add to basket
+STEP 9: Verify added to basket
+
+TEST CASE 2: Search → Filter → Add to Basket
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Select the dropdown of fashion
+STEP 4: Search White tshirt for men
+STEP 5: Click search button
+STEP 6: Select the product with price less than 10
+STEP 7: Verify product detail page
+STEP 8: Click add to basket
+STEP 9: Verify added to basket
+
+
+TEST CASE 1: Search and Add to Cart
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Type in search bar tshirt
+STEP 6: Click search button
+STEP 7: Verify search results visible
+STEP 8: Click view product
+STEP 9: Verify product detail page
+STEP 10: Click add to cart
+STEP 11: Click view cart modal
+STEP 12: Verify cart contains item
+
+
+TEST CASE 2: Cheapest Product to Cart
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Select the cheapest product
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+
+
+TEST CASE 3: Most Expensive Product to Cart
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Select the most expensive product
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+
+
+TEST CASE 4: Product Under Budget
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Select the product with price less than 500
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+
+
+TEST CASE 5: Product Above Threshold
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Select the product with price more than 800
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+
+
+TEST CASE 6: Women Category Filter
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click women category
+STEP 5: Click dress subcategory
+STEP 6: Verify category page
+STEP 7: Select the cheapest product
+STEP 8: Verify product detail page
+STEP 9: Click add to cart
+STEP 10: Click view cart modal
+STEP 11: Verify cart contains item
+
+
+TEST CASE 7: Brand Filter — Polo
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click polo brand
+STEP 5: Verify brand page
+STEP 6: Click view product
+STEP 7: Verify product detail page
+STEP 8: Click add to cart
+STEP 9: Click view cart modal
+STEP 10: Verify cart contains item
+
+
+TEST CASE 8: Search With Quantity
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Type in search bar dress
+STEP 5: Click search button
+STEP 6: Verify search results visible
+STEP 7: Click view product
+STEP 8: Verify product detail page
+STEP 9: Set quantity to 3
+STEP 10: Click add to cart
+STEP 11: Click view cart modal
+STEP 12: Verify cart contains item
+
+
+TEST CASE 9: Men Category — Cheapest Item
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click men category
+STEP 5: Click tshirts subcategory
+STEP 6: Verify category page
+STEP 7: Select the cheapest product
+STEP 8: Verify product detail page
+STEP 9: Click add to cart
+STEP 10: Click view cart modal
+STEP 11: Verify cart contains item
+
+
+TEST CASE 10: Brand Filter — Madame Under Budget
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click madame brand
+STEP 5: Verify brand page
+STEP 6: Select the product with price more than 1000
+STEP 7: Verify product detail page
+STEP 8: Click add to cart
+STEP 9: Click view cart modal
+STEP 10: Verify cart contains item

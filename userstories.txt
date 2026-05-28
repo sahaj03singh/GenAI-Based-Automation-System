@@ -1,0 +1,432 @@
+
+
+TEST CASE 1: Search and Add to Cart
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Type in search bar tshirt
+STEP 6: Click search button
+STEP 7: Verify search results visible
+STEP 8: Click view product
+STEP 9: Verify product detail page
+STEP 10: Click add to cart
+STEP 11: Click view cart modal
+STEP 12: Verify cart contains item
+
+
+TEST CASE 2: Cheapest Product to Cart
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Select the cheapest product
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+
+
+TEST CASE 3: Most Expensive Product to Cart
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Select the most expensive product
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+
+
+TEST CASE 4: Product Under Budget
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Select the product with price less than 500
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+
+
+TEST CASE 5: Product Above Threshold
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Select the product with price more than 800
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+
+
+TEST CASE 6: Women Category Filter
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click women category
+STEP 5: Click dress subcategory
+STEP 6: Verify category page
+STEP 7: Select the cheapest product
+STEP 8: Verify product detail page
+STEP 9: Click add to cart
+STEP 10: Click view cart modal
+STEP 11: Verify cart contains item
+
+
+TEST CASE 7: Brand Filter — Polo
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click polo brand
+STEP 5: Verify brand page
+STEP 6: Click view product
+STEP 7: Verify product detail page
+STEP 8: Click add to cart
+STEP 9: Click view cart modal
+STEP 10: Verify cart contains item
+
+
+TEST CASE 8: Search With Quantity
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Type in search bar dress
+STEP 5: Click search button
+STEP 6: Verify search results visible
+STEP 7: Click view product
+STEP 8: Verify product detail page
+STEP 9: Set quantity to 3
+STEP 10: Click add to cart
+STEP 11: Click view cart modal
+STEP 12: Verify cart contains item
+
+
+TEST CASE 9: Men Category — Cheapest Item
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click men category
+STEP 5: Click tshirts subcategory
+STEP 6: Verify category page
+STEP 7: Select the cheapest product
+STEP 8: Verify product detail page
+STEP 9: Click add to cart
+STEP 10: Click view cart modal
+STEP 11: Verify cart contains item
+
+
+TEST CASE 10: Brand Filter — Madame Under Budget
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click madame brand
+STEP 5: Verify brand page
+STEP 6: Select the product with price more than 1000
+STEP 7: Verify product detail page
+STEP 8: Click add to cart
+STEP 9: Click view cart modal
+STEP 10: Verify cart contains item
+
+TEST CASE 11: Kids Category Cheapest Item
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click kids category
+STEP 5: Click dress subcategory
+STEP 6: Verify category page
+STEP 7: Select the cheapest product
+STEP 8: Verify product detail page
+STEP 9: Click add to cart
+STEP 10: Click view cart modal
+STEP 11: Verify cart contains item
+
+
+TEST CASE 12: Search Jeans And Add Cheapest
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Type in search bar jeans
+STEP 5: Click search button
+STEP 6: Verify search results visible
+STEP 7: Select the cheapest product
+STEP 8: Verify product detail page
+STEP 9: Click add to cart
+STEP 10: Click view cart modal
+STEP 11: Verify cart contains item
+
+
+TEST CASE 13: Search Top And Add Most Expensive
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Type in search bar top
+STEP 5: Click search button
+STEP 6: Verify search results visible
+STEP 7: Select the most expensive product
+STEP 8: Verify product detail page
+STEP 9: Click add to cart
+STEP 10: Click view cart modal
+STEP 11: Verify cart contains item
+
+
+TEST CASE 14: Product Under Budget 700
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Select the product with price less than 700
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+
+
+TEST CASE 15: Product Above Threshold 1500
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Select the product with price more than 1500
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+
+
+TEST CASE 16: Women Tops Cheapest
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click women category
+STEP 5: Click tops subcategory
+STEP 6: Verify category page
+STEP 7: Select the cheapest product
+STEP 8: Verify product detail page
+STEP 9: Click add to cart
+STEP 10: Click view cart modal
+STEP 11: Verify cart contains item
+
+
+TEST CASE 17: Brand Filter H&M Cheapest
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click h&m brand
+STEP 5: Verify brand page
+STEP 6: Select the cheapest product
+STEP 7: Verify product detail page
+STEP 8: Click add to cart
+STEP 9: Click view cart modal
+STEP 10: Verify cart contains item
+
+
+TEST CASE 18: Brand Filter Biba Most Expensive
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click biba brand
+STEP 5: Verify brand page
+STEP 6: Select the most expensive product
+STEP 7: Verify product detail page
+STEP 8: Click add to cart
+STEP 9: Click view cart modal
+STEP 10: Verify cart contains item
+
+
+TEST CASE 19: Search Saree With Quantity
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Type in search bar saree
+STEP 5: Click search button
+STEP 6: Verify search results visible
+STEP 7: Click view product
+STEP 8: Verify product detail page
+STEP 9: Set quantity to 5
+STEP 10: Click add to cart
+STEP 11: Click view cart modal
+STEP 12: Verify cart contains item
+
+
+TEST CASE 20: Men Jeans Most Expensive
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click men category
+STEP 5: Click jeans subcategory
+STEP 6: Verify category page
+STEP 7: Select the most expensive product
+STEP 8: Verify product detail page
+STEP 9: Click add to cart
+STEP 10: Click view cart modal
+STEP 11: Verify cart contains item
+
+
+TEST CASE 21: Women Dress Above Budget 1000
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click women category
+STEP 5: Click dress subcategory
+STEP 6: Verify category page
+STEP 7: Select the product with price more than 1000
+STEP 8: Verify product detail page
+STEP 9: Click add to cart
+STEP 10: Click view cart modal
+STEP 11: Verify cart contains item
+
+
+TEST CASE 22: Search Tshirt With Quantity Two
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Type in search bar tshirt
+STEP 5: Click search button
+STEP 6: Verify search results visible
+STEP 7: Click view product
+STEP 8: Verify product detail page
+STEP 9: Set quantity to 2
+STEP 10: Click add to cart
+STEP 11: Click view cart modal
+STEP 12: Verify cart contains item
+
+TEST CASE 23: Login With Valid Credentials
+# NEEDS: login_email, login_password (form_field), login_button (click)
+
+STEP 1: Open login page
+STEP 2: Verify login page loaded
+STEP 3: Enter login email
+STEP 4: Enter login password
+STEP 5: Click login button
+STEP 6: Verify logged in
+
+
+TEST CASE 24: Add To Cart Then Remove
+# NEEDS: remove_from_cart (click on the 'x' / delete button in cart)
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Click view product
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+STEP 10: Remove product from cart
+STEP 11: Verify cart is empty
+
+
+TEST CASE 25: Proceed To Checkout
+# NEEDS: proceed_to_checkout (click) — partially supported, verify the selector
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click view product
+STEP 5: Verify product detail page
+STEP 6: Click add to cart
+STEP 7: Click view cart modal
+STEP 8: Verify cart contains item
+STEP 9: Click proceed to checkout
+STEP 10: Verify checkout page
+
+
+TEST CASE 26: Subscribe To Newsletter
+# NEEDS: subscribe_email (form_field), subscribe_button (click)
+# NOTE: the subscribe button is the id=subscribe element we DISCARDED
+#       from search_submit — here it is the CORRECT target.
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Enter subscription email
+STEP 4: Click subscribe button
+STEP 5: Verify subscription success
+
+
+TEST CASE 27: Contact Us Form Submission
+# NEEDS: contact_name, contact_email, contact_subject, contact_message
+#        (form_fields), contact_submit (click), navigate to /contact_us
+
+STEP 1: Open contact us page
+STEP 2: Verify contact page loaded
+STEP 3: Enter contact name
+STEP 4: Enter contact email
+STEP 5: Enter contact subject
+STEP 6: Enter contact message
+STEP 7: Click submit contact form
+STEP 8: Verify message sent
+
+
+TEST CASE 28: Add Multiple Products To Cart
+# NEEDS: nothing new — but tests cart accumulation (add, go back, add again)
+# Borderline Tier 1; the 'continue shopping' step may need a config intent
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Verify products page
+STEP 5: Select the cheapest product
+STEP 6: Verify product detail page
+STEP 7: Click add to cart
+STEP 8: Click continue shopping
+STEP 9: Click products tab
+STEP 10: Select the most expensive product
+STEP 11: Verify product detail page
+STEP 12: Click add to cart
+STEP 13: Click view cart modal
+STEP 14: Verify cart contains item
+
+
+TEST CASE 29: Register New User
+# NEEDS: signup_name, signup_email (form_field), signup_button (click)
+#        + the multi-step account form (title, password, address...)
+
+STEP 1: Open login page
+STEP 2: Verify login page loaded
+STEP 3: Enter signup name
+STEP 4: Enter signup email
+STEP 5: Click signup button
+STEP 6: Verify account information page
+
+
+TEST CASE 30: View Product Details And Reviews
+# NEEDS: write_review_name, write_review_email, review_text (form_field),
+#        submit_review (click)
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Click view product
+STEP 5: Verify product detail page
+STEP 6: Enter reviewer name
+STEP 7: Enter reviewer email
+STEP 8: Enter review text
+STEP 9: Click submit review
+STEP 10: Verify review submitted
