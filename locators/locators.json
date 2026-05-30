@@ -1,7 +1,7 @@
 {
   "search bar": {
     "by": "xpath",
-    "value": "//input[@id='search']",
+    "value": "//input[@id='search_bar']",
     "confidence": 0.85
   },
   "quantity": {
@@ -51,12 +51,12 @@
   },
   "signup name": {
     "by": "xpath",
-    "value": "//a[text()='signup / login']",
+    "value": "//input[@name='name']",
     "confidence": 0.85
   },
   "signup button": {
     "by": "xpath",
-    "value": "//a[text()='signup / login']",
+    "value": "//button[text()='signup']",
     "confidence": 0.85
   },
   "reviewer name": {
@@ -77,6 +77,11 @@
   "submit review": {
     "by": "xpath",
     "value": "//textarea[@id='review']",
+    "confidence": 0.85
+  },
+  "login": {
+    "by": "xpath",
+    "value": "//a[@id='logout']",
     "confidence": 0.85
   }
 }

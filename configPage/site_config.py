@@ -1,123 +1,38 @@
-# ══════════════════════════════════════════════════════════════════════
-# HOW TO ADAPT THIS FILE FOR A NEW WEBSITE  —  READ BEFORE EDITING
-# ══════════════════════════════════════════════════════════════════════
-#
-# This file is the ONLY file you change to target a new site. The engine
-# code (actions.py, test_executor.py, test_generator.py) and base_config.py
-# stay exactly as they are.
-#
-# RECOMMENDED WORKFLOW:
-#   1. Run the bootstrapper against the new site to auto-discover and
-#      DOM-verify most of the locators below:
-#
-#        python -m utils.config_bootstrapper \
-#            --base-url https://YOUR-SITE.com \
-#            --pages homepage:/:role=home \
-#                    products:/PATH:role=listing \
-#                    product:/PATH:role=detail \
-#                    cart:/PATH:role=cart \
-#                    login:/PATH:role=login \
-#            --intents search_input,search_submit,view_product,add_to_basket,view_basket,product_detail_add_to_cart,category_link,brand_link,filter_compare \
-#            --out site_config_DRAFT.py
-#
-#   2. Copy the verified locators from the draft into this file.
-#   3. Hand-edit the items listed under "MUST UPDATE" below.
-#   4. Verify the merge:  python -c "from configPage.site_config import SITE_CONFIG; print(SITE_CONFIG['base_url'])"
-#
-# ──────────────────────────────────────────────────────────────────────
-# MUST UPDATE for a new site (the bootstrapper CANNOT fill these in):
-# ──────────────────────────────────────────────────────────────────────
-#
-#   [A] base_url            -> the new site's root URL.
-#
-#   [B] navigation_paths    -> the URL path for each named page. Keep the
-#                              KEYS (homepage/products/product/cart/login)
-#                              the engine looks these up by name; change
-#                              only the PATHS.
-#
-#   [C] page_ready_signals  -> one stable element per page that proves the
-#                              page has loaded (an id or unique css). The
-#                              bootstrapper marks these NEEDS_HUMAN — you
-#                              must supply them by inspecting each page.
-#
-#   [D] page_url_fragments  -> a URL substring that identifies each page
-#                              type (used by verify steps).
-#
-#   [E] verify_keywords     -> for each named state, 3-6 short phrases that
-#                              appear ONLY on that page (used to confirm a
-#                              step landed correctly). Pick phrases unique
-#                              to each page, not generic nav text.
-#
-#   [F] intent_actions[*]["match"]
-#                           -> the plain-English phrases your test cases
-#                              use for each action (e.g. "add to cart").
-#                              The bootstrapper leaves these blank — they
-#                              are YOUR test vocabulary, not discoverable
-#                              from the DOM.
-#
-#   [G] intent_actions[*]["type"]
-#                           -> the action kind. Common values:
-#                                "form_field"        -> type text into a field
-#                                "click_strategies"  -> click one element
-#                                "click_first_match" -> click the first of many
-#                                "filter_compare"    -> pick by price/value
-#                              The bootstrapper defaults everything to
-#                              "click_strategies" — fix any that differ.
-#
-#   [H] filter_compare intents -> after pasting the bootstrap-discovered
-#                              container/value/link XPaths, set:
-#                                "wait_for_url_fragment" -> the real product
-#                                   detail URL substring (bootstrapper
-#                                   defaults to "/product" — usually too loose)
-#                                "operator" -> min / max / lt / gt
-#                                "extract_pattern" -> regex for the number
-#                                   inside the value text (default r"\d+")
-#
-#   [I] data_key / field_hints / field_type  (form_field intents only)
-#                           -> data_key links the field to a value in
-#                              test_data.py (e.g. "search"). field_hints are
-#                              id/name substrings to locate the field.
-#
-# ──────────────────────────────────────────────────────────────────────
-# CHECK CAREFULLY (bootstrapper may produce these, but they can be WRONG):
-# ──────────────────────────────────────────────────────────────────────
-#
-#   * A locator tagged [VERIFIED] means it resolved to exactly ONE live
-#     element — NOT that it is the RIGHT element. The bootstrapper has been
-#     observed to verify semantically-wrong elements that happen to be
-#     unique on a valid page (e.g. a newsletter "subscribe" button getting
-#     proposed for the search-submit action). ALWAYS eyeball each
-#     [VERIFIED] locator and discard ones pointing at the wrong thing.
-#
-#   * "add to cart" usually needs selectors for BOTH the product-listing
-#     page AND the product-detail page, because a test may add from either.
-#     List detail-page selectors first, then listing-page ones.
-#
-#   * Elements that only appear AFTER an action (e.g. a "View Cart" modal
-#     that pops up after adding to cart) will NOT be found by the
-#     bootstrapper's static crawl. Add those selectors by hand.
-#
-# ──────────────────────────────────────────────────────────────────────
-# DO NOT NEED TO CHANGE:
-# ──────────────────────────────────────────────────────────────────────
-#   * The "strict": True flags (they make wrong matches fail honestly
-#     instead of silently clicking the wrong element — keep them).
-#   * The build_site_config(...) call at the bottom.
-#   * Anything in base_config.py.
-# ══════════════════════════════════════════════════════════════════════
+"""
+site_config.py — automationexercise.com (PRODUCTION)
+
+Generated from site_config_DRAFT.py (108 markers, addressed below).
+Drop in at: configPage/site_config.py
+
+MARKER-BY-MARKER RESOLUTION
+───────────────────────────
+🗑️ DELETE   16 lines — all cookie-consent (fc-*); removed entirely
+⚠️ CHECK   10 lines — flagged wrong picks, documented as DISCARDED below
+👉 FIX     ~82 lines — each addressed inline with [MANUAL] explanations
+
+PROVENANCE TAGS
+───────────────
+[BOOTSTRAP-VERIFIED]   the draft marked this ✅ — promoted as-is
+[BOOTSTRAP-DISCARDED]  draft ⚠️ CHECK or wrong-page pick — documented, not used
+[BOOTSTRAP-MERGED]     two role-separated bootstrap intents combined
+[MANUAL]               supplied by hand (intent semantics or DOM tweaks)
+
+Match phrases are kept identical to the previous working production
+config; introducing new ones risks re-routing existing steps (a bug we
+hit once and reverted from).
+"""
 
 from configPage.base_config import build_site_config
 
 
 SITE_OVERRIDES = {
 
-    # [BOOTSTRAP-VERIFIED] page loaded during the bootstrap run
+    # [BOOTSTRAP-VERIFIED] base_url loaded cleanly during the run.
     "base_url": "https://www.automationexercise.com",
 
     # ── Navigation paths ──────────────────────────────────────────
-    # [BOOTSTRAP-VERIFIED] all five URLs loaded successfully.
-    # [MANUAL] added 'home'/'basket' aliases (engine looks these keys
-    #         up; they need not appear in the bootstrap --pages list).
+    # [BOOTSTRAP-VERIFIED] all five paths loaded.
+    # [MANUAL] aliases home/basket added — the engine looks these up.
     "navigation_paths": {
         "homepage": "/",
         "home":     "/",
@@ -129,9 +44,9 @@ SITE_OVERRIDES = {
     },
 
     # ── Page ready signals ────────────────────────────────────────
-    # [MANUAL] The bootstrapper's ready-signal heuristic found no
-    # stable single-element signal and correctly marked all five
-    # NEEDS_HUMAN. These are the actual stable elements per page.
+    # [MANUAL] resolves 5 × 👉 FIX from the draft. The bootstrapper
+    # could not auto-detect these (its heuristic is honestly weak here).
+    # Each one is a single stable element confirming the page loaded.
     "page_ready_signals": {
         "homepage": ("id",  "search_product"),
         "home":     ("id",  "search_product"),
@@ -142,8 +57,8 @@ SITE_OVERRIDES = {
         "basket":   ("id",  "cart_info"),
     },
 
-    # ── URL fragments for page detection in verify ────────────────
-    # [MANUAL] URL substrings, not DOM locators — site knowledge.
+    # ── URL fragments for verify-page-detection ───────────────────
+    # [MANUAL] URL substrings, not DOM selectors — pure site knowledge.
     "page_url_fragments": {
         "products":       "/products",
         "product_detail": "/product_details/",
@@ -154,10 +69,11 @@ SITE_OVERRIDES = {
     },
 
     # ── Verify keywords ───────────────────────────────────────────
-    # [MANUAL] The bootstrapper's visible-text sampler returned the
-    # same generic nav phrases ("home", "products", "cart") for every
-    # page, which cannot distinguish states. These are the actual
-    # unique phrases that identify each page.
+    # [MANUAL] resolves the 5 × ⚠️ PROPOSED entries from the draft.
+    # The draft's auto-sampled keywords were the same generic nav text
+    # ("home"/"products"/"cart") for every page, which can't
+    # distinguish page-states. These are the actual page-unique
+    # phrases for each named state used in test steps.
     "verify_keywords": {
         "homepage loaded": [
             "automationexercise", "full-fledged practice website",
@@ -203,6 +119,10 @@ SITE_OVERRIDES = {
         "logged in": [
             "logged in as", "logout", "delete account",
         ],
+        "login page loaded": [
+            "login to your account", "new user signup",
+            "email address", "password",
+        ],
     },
 
     # ──────────────────────────────────────────────────────────────
@@ -210,21 +130,31 @@ SITE_OVERRIDES = {
     # ──────────────────────────────────────────────────────────────
     "intent_actions": {
 
-        # ── Search box ────────────────────────────────────────────
+        # ── search_input ─────────────────────────────────────────
+        # Draft markers resolved:
+        #   👉 FIX type            → form_field
+        #   👉 FIX match           → restored from previous working config
+        #   👉 FIX data_key        → "search" (key in test_data.py)
+        #   3 × 👉 FIX no-resolve  → removed (those selectors don't exist here)
         "search_input": {
-            "type": "form_field",          # [MANUAL] intent type
-            "match": [                      # [MANUAL] intent semantics
+            "type": "form_field",
+            "match": [
                 "search bar", "search box", "search field",
                 "search input", "search for", "type in search bar",
             ],
-            # [BOOTSTRAP-VERIFIED] id=search_product and name=search
-            # both matched 1 element on home + listing pages.
+            # [BOOTSTRAP-VERIFIED] ✅ id=search_product matched 1.
+            #                       ✅ name=search and placeholder also ✅.
             "field_hints": ["search_product", "search"],
             "field_type": "text",
             "data_key": "search",
         },
 
-        # ── Search submit ─────────────────────────────────────────
+        # ── search_submit ────────────────────────────────────────
+        # Draft markers resolved:
+        #   👉 FIX type            → click_strategies
+        #   👉 FIX match           → restored
+        #   ⚠️ PROPOSED button[type=button] (matched 2) → discarded (generic)
+        #   3 × 👉 FIX no-resolve  → removed
         "search_submit": {
             "type": "click_strategies",
             "match": [
@@ -232,26 +162,25 @@ SITE_OVERRIDES = {
                 "click search", "go button",
             ],
             "strategies": [
-                # [BOOTSTRAP-VERIFIED] LLM scoped this to the search
-                # form specifically (matched 1) — the cleanest choice.
+                # [BOOTSTRAP-VERIFIED] ✅ matched 1 — search-form-scoped.
                 ("css", "form.searchform button[type='submit']"),
-                # [BOOTSTRAP-VERIFIED] heuristic generic submit (1).
+                # [BOOTSTRAP-VERIFIED] ✅ matched 1 — generic submit.
                 ("css", "button[type='submit']"),
-                # [BOOTSTRAP-DISCARDED] the bootstrapper also VERIFIED
-                #   ("id", "subscribe")
-                # which resolves to exactly one element — but it is the
-                # NEWSLETTER subscribe button, not the search submit.
-                # This is the *same-page* semantic-confusion class that
-                # role-gating cannot fix (both buttons live on the
-                # homepage, a valid role for search_submit). Discarded
-                # by human review. Documented as a dissertation finding.
+                # [BOOTSTRAP-DISCARDED] earlier draft offered
+                # ("id", "subscribe") here — the newsletter button.
+                # Same-page semantic confusion; not used.
             ],
             "wait_for_url_fragment": "/products",
         },
 
-        # ── Open a product (listing -> detail) ────────────────────
+        # ── view_product ─────────────────────────────────────────
+        # Draft markers resolved:
+        #   👉 FIX type            → click_first_match (many product cards)
+        #   👉 FIX match           → restored
+        #   ⚠️ PROPOSED button[type=button] (matched 2) → discarded
+        #   3 × 👉 FIX no-resolve  → removed
         "view_product": {
-            "type": "click_first_match",   # [MANUAL] intent type
+            "type": "click_first_match",
             "match": [
                 "view product", "click product", "select product",
                 "first product", "first result",
@@ -259,28 +188,31 @@ SITE_OVERRIDES = {
             "pre_wait": 1,
             "scroll_before_click": True,
             "strategies": [
-                # [BOOTSTRAP-VERIFIED] heuristic, matched 1.
+                # [MANUAL] /product_details/ is tighter than the draft's
+                # generic /product — avoids matching /products itself.
                 ("css", "a[href*='/product_details/']"),
+                # [BOOTSTRAP-VERIFIED] ✅ matched 1.
                 ("css", "a[href*='/product']"),
-                # [BOOTSTRAP-DISCARDED] the LLM also proposed an XPath
-                # keyed on inline style (contains(@style,'color: brown'))
-                # which matched 34 — brittle presentational selector,
-                # discarded in favour of the stable href selectors.
             ],
             "wait_for_url_fragment": "/product_details/",
         },
 
-        # ── Add to cart [BOOTSTRAP-MERGED] ────────────────────────
-        # Combines two role-separated bootstrap intents:
-        #   product_detail_add_to_cart (role=detail) — the single
-        #     <button> in the buy box on a product detail page; and
-        #   add_to_basket (role=listing) — the per-card add-to-cart
-        #     links on a product listing page.
-        # Tests just say "add to cart"; the engine tries detail-page
-        # selectors first, then listing-page ones.
+        # ── add_to_basket [BOOTSTRAP-MERGED] ──────────────────────
+        # Draft markers resolved:
+        #   👉 FIX type            → click_strategies
+        #   👉 FIX match           → restored
+        #   👉 FIX strict          → True (wrong add-to-cart is bad)
+        #   2 × ⚠️ CHECK search_product/submit_search → DISCARDED
+        #   ⚠️ PROPOSED xpath matched 25 → kept as backup (covers listing
+        #                                   page when product cards have
+        #                                   "Add to cart" text)
+        #   2 × 👉 FIX no-resolve  → removed
+        # [BOOTSTRAP-MERGED] also includes detail-page selectors from the
+        # draft's separate product_detail_add_to_cart intent (which had
+        # button.cart ✅).
         "add_to_basket": {
             "type": "click_strategies",
-            "strict": True,                # [MANUAL] honest fail-fast
+            "strict": True,
             "match": [
                 "add to cart", "add to basket", "add this to cart",
             ],
@@ -288,27 +220,21 @@ SITE_OVERRIDES = {
             "scroll_before_click": True,
             "wait_after": 2,
             "strategies": [
-                # ── Product DETAIL page ───────────────────────────
-                # [BOOTSTRAP-VERIFIED] all four matched 1 on the
-                # /product_details/1 page (role=detail). These are the
-                # correct buy-box button.
+                # ── Detail page (from product_detail_add_to_cart) ──
+                # [BOOTSTRAP-VERIFIED] all four ✅ on /product_details/1.
                 ("css", "button.cart"),
                 ("css", "button.btn.cart"),
                 ("css", "button[type='button'].btn.cart"),
                 ("xpath", "//button[contains(@class,'cart') and "
                           "(contains(.,'Add to cart') or "
                           "contains(.,'Add to Cart'))]"),
-                # [BOOTSTRAP-DISCARDED] on the detail page the
-                # bootstrapper also VERIFIED ("id","button-review") and
-                # a 'close-modal' button — both resolve to one element
-                # but are the wrong buttons (review / modal-close).
-                # Same-page semantic confusion; discarded by review.
+                # [BOOTSTRAP-DISCARDED] detail page also surfaced
+                # id=quantity/name/email/review as ✅ — those are the
+                # review form, NOT add-to-cart. Same-page confusion.
                 #
-                # ── Product LISTING page ──────────────────────────
-                # [BOOTSTRAP-VERIFIED] (PROPOSED tier in the draft
-                # because there are many per-card buttons — which is
-                # correct for a listing). The engine clicks the first
-                # match. These are the listing add-to-cart links.
+                # ── Listing page (the per-card add-to-cart links) ──
+                # [BOOTSTRAP-VERIFIED] from the draft's add_to_basket
+                # intent — these are the right listing-page selectors.
                 ("css", "a.add-to-cart"),
                 ("xpath", "//a[contains(@class,'add-to-cart')]"),
             ],
@@ -316,7 +242,13 @@ SITE_OVERRIDES = {
             "count_key": "cart_count",
         },
 
-        # ── View cart ─────────────────────────────────────────────
+        # ── view_basket ──────────────────────────────────────────
+        # Draft markers resolved:
+        #   👉 FIX type            → click_strategies
+        #   👉 FIX match           → restored
+        #   ⚠️ PROPOSED [aria-label*='art'] (matched 7) → discarded (loose)
+        #   ⚠️ PROPOSED button[type=button] (matched 2) → discarded
+        #   1 × 👉 FIX no-resolve  → removed
         "view_basket": {
             "type": "click_strategies",
             "match": [
@@ -325,41 +257,56 @@ SITE_OVERRIDES = {
                 "view cart modal",
             ],
             "strategies": [
-                # [BOOTSTRAP-VERIFIED] both matched 1.
+                # [BOOTSTRAP-VERIFIED] ✅ matched 1.
                 ("css", "a[href='/view_cart']"),
                 ("xpath", "//a[@href='/view_cart']"),
-                # [MANUAL] post-add modal's "View Cart" link sits inside
-                # <u> tags; the bootstrapper never sees this because the
-                # modal only appears after an add-to-cart action, which
-                # a static crawl does not trigger.
+                # [MANUAL] post-add modal "View Cart" sits inside <u>.
+                # Bootstrapper static crawl never sees it (modal only
+                # appears after an add-to-cart click).
                 ("xpath", "//u[text()='View Cart']/parent::a"),
             ],
             "wait_for_url_fragment": "/view_cart",
         },
 
-        # ── Category navigation ───────────────────────────────────
-        # [BOOTSTRAP-VERIFIED] on home + listing pages.
+        # ── category_link ────────────────────────────────────────
+        # Draft markers resolved:
+        #   👉 FIX type            → click_first_match
+        #   👉 FIX match           → restored from PREVIOUS working config
+        #                            (NOT adding "category" — that broke
+        #                            "Click products tab" routing earlier)
+        #   ⚠️ PROPOSED button[type=button] (matched 2) → discarded
         "category_link": {
-            "type": "click_first_match",   # [MANUAL] intent type
+            "type": "click_first_match",
             "match": [
-                "category", "women category", "men category",
-                "kids category", "category link",
+                "women category", "men category", "kids category",
+                "category link",
+                "dress subcategory", "tops subcategory",
+                "tshirts subcategory", "jeans subcategory",
+                "saree subcategory",
             ],
             "pre_wait": 1,
             "scroll_before_click": True,
             "strategies": [
+                # [BOOTSTRAP-VERIFIED] both ✅ matched 1.
                 ("css", ".category-products a"),
                 ("css", "#accordian a"),
                 ("css", "a[href*='/category_products/']"),
             ],
         },
 
-        # ── Brand navigation ──────────────────────────────────────
-        # [BOOTSTRAP-VERIFIED] on home + listing pages.
+        # ── brand_link ───────────────────────────────────────────
+        # Draft markers resolved:
+        #   👉 FIX type            → click_first_match
+        #   👉 FIX match           → restored
+        #   2 × ⚠️ CHECK search_product/submit_search → DISCARDED
+        #   3 × ⚠️ PROPOSED brand selectors (matched 8) → KEPT — matched 8
+        #     is correct for a listing of brands; click_first_match handles
+        #     selection by URL keyword in the step.
         "brand_link": {
-            "type": "click_first_match",   # [MANUAL] intent type
+            "type": "click_first_match",
             "match": [
-                "brand", "polo brand", "madame brand", "brand link",
+                "polo brand", "madame brand", "h&m brand", "biba brand",
+                "brand link",
             ],
             "pre_wait": 1,
             "scroll_before_click": True,
@@ -370,14 +317,78 @@ SITE_OVERRIDES = {
             ],
         },
 
-        # ── Filter-compare intents [BOOTSTRAP-VERIFIED pattern] ───
-        # The repeating-grid pattern was discovered on the listing
-        # page (role=listing): container matched 34 items, value+link
-        # resolved in 100% of them.
-        # [MANUAL] wait_for_url_fragment tightened from the
-        # bootstrapper default "/product" to "/product_details/"
-        # (the bootstrapper marks this NEEDS_HUMAN by design — it
-        # cannot infer the exact URL pattern from page structure).
+        # ── login_email ──────────────────────────────────────────
+        # Draft markers resolved:
+        #   👉 FIX type            → form_field
+        #   👉 FIX match           → keywords matching test step wording
+        #   👉 FIX data_key        → "email"
+        #   2 × ⚠️ CHECK subscribe → DISCARDED (newsletter, not login)
+        #   5 × ✅ signup-* / login-password / login-button → not used
+        #     here; each belongs in its own intent (DOM extractor
+        #     surfaces them all on this page; semantics decides).
+        #   4 × 🗑️ DELETE fc-*    → removed
+        "login_email": {
+            "type": "form_field",
+            "match": [
+                "login email", "enter login email",
+                "login email field",
+                # NOTE: deliberately NOT including bare "email" or
+                # "email address" — those phrases also appear in
+                # subscribe/contact/signup test steps and would
+                # mis-route. Use phrases that explicitly say "login".
+            ],
+            # [BOOTSTRAP-VERIFIED] ✅ via the DOM extractor + form context
+            # which correctly picked login-email over signup-email.
+            "field_hints": ["login-email", "email"],
+            "field_type": "email",
+            "data_key": "email",
+        },
+
+        # ── login_password ───────────────────────────────────────
+        # Draft markers resolved similarly to login_email above.
+        "login_password": {
+            "type": "form_field",
+            "match": [
+                "login password", "enter login password",
+                "password field",
+            ],
+            "field_hints": ["login-password", "password"],
+            "field_type": "password",
+            "data_key": "password",
+        },
+
+        # ── login_button ─────────────────────────────────────────
+        # Draft markers resolved:
+        #   👉 FIX type            → click_strategies
+        #   👉 FIX strict          → True
+        #   2 × ⚠️ CHECK subscribe → DISCARDED
+        #   4 × 🗑️ DELETE fc-*    → removed
+        "login_button": {
+            "type": "click_strategies",
+            "strict": True,
+            "match": [
+                "login button", "click login", "submit login",
+                "click login button",
+            ],
+            "strategies": [
+                # [BOOTSTRAP-VERIFIED] all three ✅ matched 1.
+                ("css", "button[data-qa='login-button']"),
+                ("xpath", "//form[contains(@action,'login')]"
+                          "//button[@type='submit']"),
+                ("xpath", "//button[contains(translate(.,"
+                          "'LOGIN','login'),'login')]"),
+            ],
+            "wait_for_url_fragment": "/",
+        },
+
+        # ── filter_compare intents (4 × identical structure) ─────
+        # Draft markers resolved for each:
+        #   👉 FIX strict          → True (recommended in the draft itself)
+        #   👉 FIX match           → restored
+        #   👉 FIX wait_for_url_fragment → "/product_details/" (the draft
+        #     default "/product" matches /products and is too loose).
+        # [BOOTSTRAP-VERIFIED] pattern: container matched 34 items;
+        # value resolved in 100%, link in 100%.
 
         "select_cheapest_product": {
             "type": "filter_compare",
@@ -448,6 +459,5 @@ SITE_OVERRIDES = {
 }
 
 
-# Merge the site layer onto the static base contract.
-# SITE_CONFIG is what the rest of the framework imports.
+# Merge the site overrides onto the static base contract.
 SITE_CONFIG = build_site_config(SITE_OVERRIDES)
