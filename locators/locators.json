@@ -83,5 +83,10 @@
     "by": "xpath",
     "value": "//a[@id='logout']",
     "confidence": 0.85
+  },
+  "login password": {
+    "by": "xpath",
+    "value": "//input[@id='login_password']",
+    "confidence": 0.85
   }
 }

@@ -430,3 +430,281 @@ STEP 7: Enter reviewer email
 STEP 8: Enter review text
 STEP 9: Click submit review
 STEP 10: Verify review submitted
+
+TEST CASE 31: Login With Invalid Password
+# NEW: verify_keywords for "login error"
+# Negative test — uses existing login_* intents
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click signup login link
+STEP 4: Verify login page loaded
+STEP 5: Enter login email
+STEP 6: Enter wrong login password
+STEP 7: Click login button
+STEP 8: Verify login error visible
+
+
+TEST CASE 32: Logout After Login
+# NEW INTENT: logout_link
+# NEW VERIFY KEYWORDS: "logged out"
+
+STEP 1: Open homepage
+STEP 2: Click signup login link
+STEP 3: Enter login email
+STEP 4: Enter login password
+STEP 5: Click login button
+STEP 6: Verify logged in
+STEP 7: Click logout button
+STEP 8: Verify logged out
+
+
+TEST CASE 33: Delete Account After Registration
+# NEW INTENT: delete_account_link
+# NEW VERIFY KEYWORDS: "account deleted"
+
+STEP 1: Open homepage
+STEP 2: Click signup login link
+STEP 3: Enter login email
+STEP 4: Enter login password
+STEP 5: Click login button
+STEP 6: Verify logged in
+STEP 7: Click delete account button
+STEP 8: Verify account deleted
+
+
+TEST CASE 34: Subscribe To Newsletter From Homepage
+# NEW INTENTS: subscribe_email, subscribe_button
+# NEW VERIFY KEYWORDS: "subscription success" — KEEP TIGHT
+#   (TC26 false positive showed loose keywords cause wrong passes)
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Scroll to footer
+STEP 4: Enter subscription email
+STEP 5: Click subscribe button
+STEP 6: Verify subscription success message
+
+
+TEST CASE 35: Subscribe From Cart Page
+# Same intents as TC34 from a different page — tests reuse
+
+STEP 1: Open homepage
+STEP 2: Navigate to cart page
+STEP 3: Scroll to footer
+STEP 4: Enter subscription email
+STEP 5: Click subscribe button
+STEP 6: Verify subscription success message
+
+
+TEST CASE 36: Contact Us Form Submission Full
+# NEW INTENTS: nav_contact_us, contact_name, contact_email,
+#              contact_subject, contact_message, contact_submit
+# NEW VERIFY KEYWORDS: "contact page loaded", "message sent"
+
+STEP 1: Open homepage
+STEP 2: Click contact us link
+STEP 3: Verify contact us page loaded
+STEP 4: Enter contact name
+STEP 5: Enter contact email
+STEP 6: Enter contact subject
+STEP 7: Enter contact message
+STEP 8: Click submit contact button
+STEP 9: Verify message sent
+
+
+TEST CASE 37: Remove Single Item From Cart
+# NEW INTENT: remove_from_cart (the "x" button in cart rows)
+# NEW VERIFY KEYWORDS: "cart is empty"
+
+STEP 1: Open homepage
+STEP 2: Click products tab
+STEP 3: Click view product
+STEP 4: Verify product detail page
+STEP 5: Click add to cart
+STEP 6: Click view cart modal
+STEP 7: Verify cart contains item
+STEP 8: Click remove cart item
+STEP 9: Verify cart is empty
+
+
+TEST CASE 38: Update Quantity In Cart Page
+# NEW INTENT: cart_quantity_input
+#   (current quantity intent works only on the detail page)
+
+STEP 1: Open homepage
+STEP 2: Click products tab
+STEP 3: Click view product
+STEP 4: Click add to cart
+STEP 5: Click view cart modal
+STEP 6: Verify cart contains item
+STEP 7: Update cart quantity to 5
+STEP 8: Verify cart total updated
+
+
+TEST CASE 39: Verify Product Detail Page Fields
+# NEW VERIFIES: verify_product_has_price,
+#               verify_product_has_availability,
+#               verify_product_has_brand,
+#               verify_product_has_category
+
+STEP 1: Open homepage
+STEP 2: Click products tab
+STEP 3: Click view product
+STEP 4: Verify product detail page
+STEP 5: Verify product has price displayed
+STEP 6: Verify product has availability shown
+STEP 7: Verify product has brand listed
+STEP 8: Verify product has category displayed
+
+
+TEST CASE 40: Write Product Review While Logged In
+# NEW INTENTS: reviewer_name, reviewer_email, review_text, submit_review
+# NEW VERIFY KEYWORDS: "review submitted"
+
+STEP 1: Open homepage
+STEP 2: Click signup login link
+STEP 3: Enter login email
+STEP 4: Enter login password
+STEP 5: Click login button
+STEP 6: Click products tab
+STEP 7: Click view product
+STEP 8: Verify write your review section visible
+STEP 9: Enter reviewer name
+STEP 10: Enter reviewer email
+STEP 11: Enter review text
+STEP 12: Click submit review
+STEP 13: Verify review submitted
+
+
+TEST CASE 41: Add To Cart From Recommended Items
+# NEW INTENT: recommended_item_add_to_cart
+#   (the items in the "recommended" carousel on homepage)
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Scroll to recommended items section
+STEP 4: Verify recommended items visible
+STEP 5: Click first recommended item add to cart
+STEP 6: Click view cart modal
+STEP 7: Verify cart contains item
+
+
+TEST CASE 42: Empty Cart When Multiple Items Removed
+# Uses TC37's remove_from_cart twice
+
+STEP 1: Open homepage
+STEP 2: Click products tab
+STEP 3: Click view product
+STEP 4: Click add to cart
+STEP 5: Click continue shopping
+STEP 6: Click most expensive product
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+STEP 10: Click remove cart item
+STEP 11: Click remove cart item
+STEP 12: Verify cart is empty
+
+
+TEST CASE 43: Search Case Insensitivity
+# Existing intents only — robustness test
+
+STEP 1: Open homepage
+STEP 2: Click products tab
+STEP 3: Type in search bar TSHIRT
+STEP 4: Click search button
+STEP 5: Verify search results visible
+STEP 6: Click view product
+STEP 7: Verify product detail page
+
+
+TEST CASE 44: Proceed To Checkout As Logged In User
+# NEW VERIFY KEYWORDS: "checkout address details",
+#                      "review your order section"
+# Doesn't fill payment — just verifies checkout page reached
+
+STEP 1: Open homepage
+STEP 2: Click signup login link
+STEP 3: Enter login email
+STEP 4: Enter login password
+STEP 5: Click login button
+STEP 6: Click products tab
+STEP 7: Click view product
+STEP 8: Click add to cart
+STEP 9: Click view cart modal
+STEP 10: Click proceed to checkout
+STEP 11: Verify checkout address details visible
+STEP 12: Verify review your order section visible
+
+
+TEST CASE 45: Verify Cart Persists Across Pages
+# Existing intents only — session/state test
+
+STEP 1: Open homepage
+STEP 2: Click products tab
+STEP 3: Click view product
+STEP 4: Click add to cart
+STEP 5: Click continue shopping
+STEP 6: Click products tab
+STEP 7: Click view cart link
+STEP 8: Verify cart contains item
+
+
+TEST CASE 46: Add Same Product Twice
+# Existing intents only — verifies quantity increments
+
+STEP 1: Open homepage
+STEP 2: Click products tab
+STEP 3: Click view product
+STEP 4: Click add to cart
+STEP 5: Click continue shopping
+STEP 6: Click view product
+STEP 7: Click add to cart
+STEP 8: Click view cart modal
+STEP 9: Verify cart contains item
+STEP 10: Verify cart quantity is 2
+
+
+TEST CASE 47: Verify Footer Subscription Section Present
+# NEW VERIFY: footer presence
+# Lightweight — useful as a parallel-execution sanity test
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Scroll to footer
+STEP 4: Verify subscription section visible
+STEP 5: Verify subscribe email field present
+
+
+TEST CASE 48: Scroll To Top Button
+# NEW INTENT: scroll_to_top_button
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click products tab
+STEP 4: Scroll to bottom of page
+STEP 5: Click scroll to top button
+STEP 6: Verify page scrolled to top
+
+
+TEST CASE 49: View Cart Without Adding Anything
+# NEW VERIFY KEYWORDS: "cart is empty"
+
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Click view cart link
+STEP 4: Verify cart is empty
+
+
+TEST CASE 50: Search Then Clear And Search Again
+# Existing intents only — tests search bar reset
+
+STEP 1: Open homepage
+STEP 2: Click products tab
+STEP 3: Type in search bar dress
+STEP 4: Click search button
+STEP 5: Verify search results visible
+STEP 6: Type in search bar jeans
+STEP 7: Click search button
+STEP 8: Verify search results visible
