@@ -136,12 +136,12 @@
   },
   "recommended items section": {
     "by": "xpath",
-    "value": "//a[text()='products']",
+    "value": "//a[text()='women']",
     "confidence": 0.85
   },
   "bottom of page": {
     "by": "xpath",
-    "value": "//a[text()='signup / login']",
+    "value": "//a[@id='home']",
     "confidence": 0.85
   },
   "scroll to top button": {
