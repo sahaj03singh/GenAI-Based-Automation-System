@@ -30,3 +30,6 @@ screenshots/
 # tooling
 .pytest_cache/
 .DS_Store
+*.bak
+*.bak2
+*.bak3

@@ -1,15 +1,4 @@
-"""
-site_config.py — Amazon.co.uk configuration.
 
-Compatible with current architecture:
-- strict-mode executor (3-status outcomes)
-- config-driven test_generator (builds LLM prompt from match keywords)
-- click_first_match strict fail-fast (no LLM fallback for view_product)
-- per-intent "strict": True flag (no fall-through to healing/LLM)
-- popup handler in conftest (consent banners)
-
-ALL site knowledge lives in this file + test_data.py.
-"""
 
 SITE_CONFIG = {
 

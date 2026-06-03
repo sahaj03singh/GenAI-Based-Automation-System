@@ -1,6 +1,7 @@
 FIELD_PATTERNS = {
     "email":        ["email", "e-mail", "username", "user name", "user id"],
     "password":     ["password", "pass", "secret", "pwd"],
+    "invalid_password":  ["invalid password", "wrong password", "invalid login password", "wrong login password"],
     "card_name":    ["card name", "name on card", "cardholder", "card holder"],
     "card_number":  ["card number", "credit card", "card no", "card num"],
     "cvc":          ["cvc", "cvv", "security code", "card code"],
@@ -15,8 +16,9 @@ FIELD_PATTERNS = {
 }
 
 TEST_DATA = {
-    "email":        "demotest1502@test.com",
+    "email":        "demotest1973@test.com",
     "password":     "test@123",
+    "invalid_password": "wrongpassword123",
     "card_name":    "Test User",
     "card_number":  "4111111111111111",
     "cvc":          "123",

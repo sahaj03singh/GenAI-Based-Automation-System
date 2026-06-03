@@ -33,18 +33,18 @@ def test_3(driver):
     execute_step(driver, {'action': 'click', 'target': 'most expensive product', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_4(driver):
     execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'products page', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'products page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'product with price less than', 'value': '500'})
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_5(driver):
@@ -55,7 +55,7 @@ def test_5(driver):
     execute_step(driver, {'action': 'click', 'target': 'product with price more than', 'value': '800'})
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_6(driver):
@@ -80,7 +80,7 @@ def test_7(driver):
     execute_step(driver, {'action': 'click', 'target': 'view product', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_8(driver):
@@ -94,7 +94,7 @@ def test_8(driver):
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'type', 'target': 'quantity', 'value': '3'})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_9(driver):
@@ -113,13 +113,13 @@ def test_9(driver):
 def test_10(driver):
     execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'women category', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'polo brand', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'madame brand', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'brand page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'product with price more than', 'value': '1000'})
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_11(driver):
@@ -132,7 +132,7 @@ def test_11(driver):
     execute_step(driver, {'action': 'click', 'target': 'cheapest product', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_12(driver):
@@ -145,7 +145,7 @@ def test_12(driver):
     execute_step(driver, {'action': 'click', 'target': 'cheapest product', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_13(driver):
@@ -164,20 +164,23 @@ def test_13(driver):
 def test_14(driver):
     execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': 'product with price less than'})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'products page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'product with price less than', 'value': '700'})
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_15(driver):
     execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': 'product with price more than'})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'products page', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'product with price more than', 'value': '1500'})
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_16(driver):
@@ -208,13 +211,13 @@ def test_17(driver):
 def test_18(driver):
     execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': 'products tab'})
-    execute_step(driver, {'action': 'click', 'target': 'polo brand', 'value': 'biba'})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'biba brand', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'brand page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'most expensive product', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': 'modal'})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_19(driver):
@@ -268,14 +271,13 @@ def test_22(driver):
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'type', 'target': 'quantity', 'value': '2'})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
 
 def test_23(driver):
     execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'login', 'value': ''})
-    execute_step(driver, {'action': 'verify', 'target': 'login page loaded', 'value': ''})
     execute_step(driver, {'action': 'type', 'target': 'login email', 'value': ''})
     execute_step(driver, {'action': 'type', 'target': 'login password', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'login button', 'value': ''})
@@ -284,12 +286,14 @@ def test_23(driver):
 def test_24(driver):
     execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'products page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'view product', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'remove product from cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'remove cart item', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'cart is empty', 'value': ''})
 
 def test_25(driver):
@@ -307,20 +311,13 @@ def test_25(driver):
 def test_26(driver):
     execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
-    execute_step(driver, {'action': 'type', 'target': 'login email', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'login button', 'value': ''})
-    execute_step(driver, {'action': 'verify', 'target': 'login page loaded', 'value': ''})
-    execute_step(driver, {'action': 'type', 'target': 'login password', 'value': ''})
-    execute_step(driver, {'action': 'verify', 'target': 'logged in', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'subscription email', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'subscribe button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'subscription success', 'value': ''})
 
 def test_27(driver):
     execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'login', 'value': ''})
-    execute_step(driver, {'action': 'type', 'target': 'login email', 'value': ''})
-    execute_step(driver, {'action': 'type', 'target': 'login password', 'value': ''})
-    execute_step(driver, {'action': 'click', 'target': 'login button', 'value': ''})
-    execute_step(driver, {'action': 'verify', 'target': 'logged in', 'value': ''})
     execute_step(driver, {'action': 'navigate', 'target': 'contact us page', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'contact page loaded', 'value': ''})
     execute_step(driver, {'action': 'type', 'target': 'contact name', 'value': ''})
@@ -347,11 +344,10 @@ def test_29(driver):
     execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'login', 'value': ''})
-    execute_step(driver, {'action': 'verify', 'target': 'login page loaded', 'value': ''})
-    execute_step(driver, {'action': 'type', 'target': 'login email', 'value': 'signup email'})
-    execute_step(driver, {'action': 'type', 'target': 'login password', 'value': 'signup name'})
-    execute_step(driver, {'action': 'click', 'target': 'login button', 'value': ''})
-    execute_step(driver, {'action': 'verify', 'target': 'products page', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'signup name', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'signup email', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'signup button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'account information page', 'value': ''})
 
 def test_30(driver):
     execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
@@ -364,4 +360,196 @@ def test_30(driver):
     execute_step(driver, {'action': 'type', 'target': 'review text', 'value': ''})
     execute_step(driver, {'action': 'click', 'target': 'submit review', 'value': ''})
     execute_step(driver, {'action': 'verify', 'target': 'review submitted', 'value': ''})
+
+def test_31(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'signup login link', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'login page loaded', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'login email', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'invalid login password', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'login button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'login error visible', 'value': ''})
+
+def test_32(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'signup login link', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'login email', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'login password', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'login button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'logged in', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'logout button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'logged out', 'value': ''})
+
+def test_33(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
+    execute_step(driver, {'action': 'scroll', 'target': 'footer', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'subscription email', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'subscribe button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'subscription success message', 'value': ''})
+
+def test_34(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'navigate', 'target': 'cart page', 'value': ''})
+    execute_step(driver, {'action': 'scroll', 'target': 'footer', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'subscription email', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'subscribe button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'subscription success message', 'value': ''})
+
+def test_35(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'contact us link', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'contact us page loaded', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'contact name', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'contact email', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'contact subject', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'contact message', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'submit contact button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'message sent', 'value': ''})
+
+def test_36(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'remove cart item', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'cart is empty', 'value': ''})
+
+def test_37(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'proceed to checkout', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'checkout page', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'cart quantity', 'value': '5'})
+    execute_step(driver, {'action': 'verify', 'target': 'cart total updated', 'value': ''})
+
+def test_38(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'product has price displayed', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'product has availability shown', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'product has brand listed', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'product has category displayed', 'value': ''})
+
+def test_39(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'login', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'login email', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'login password', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'login button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'logged in', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'write your review section visible', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'reviewer name', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'reviewer email', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'review text', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'submit review', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'review submitted', 'value': ''})
+
+def test_40(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
+    execute_step(driver, {'action': 'scroll', 'target': 'recommended items section', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'recommended items section visible', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'first recommended item add to cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
+
+def test_41(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'continue shopping', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'most expensive product', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'remove cart item', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'cart is empty', 'value': ''})
+
+def test_42(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'search bar', 'value': 'TSHIRT'})
+    execute_step(driver, {'action': 'click', 'target': 'search button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'search results visible', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'product detail page', 'value': ''})
+
+def test_43(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'login', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'login email', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'login password', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'login button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'logged in', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'proceed to checkout', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'checkout address details visible', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'review your order section visible', 'value': ''})
+
+def test_44(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'continue shopping', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart link', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
+
+def test_45(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view product', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'add to cart', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'continue shopping', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart modal', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'cart contains item', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'cart quantity', 'value': '2'})
+
+def test_46(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
+    execute_step(driver, {'action': 'scroll', 'target': 'footer', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'subscription section visible', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'subscribe email field present', 'value': ''})
+
+def test_47(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'scroll', 'target': 'bottom of page', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'scroll to top button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'page scrolled to top', 'value': ''})
+
+def test_48(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'homepage loaded', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'view cart link', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'cart is empty', 'value': ''})
+
+def test_49(driver):
+    execute_step(driver, {'action': 'navigate', 'target': 'homepage', 'value': ''})
+    execute_step(driver, {'action': 'click', 'target': 'products tab', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'search bar', 'value': 'dress'})
+    execute_step(driver, {'action': 'click', 'target': 'search button', 'value': ''})
+    execute_step(driver, {'action': 'verify', 'target': 'search results visible', 'value': ''})
+    execute_step(driver, {'action': 'type', 'target': 'search bar', 'value': 'jeans'})
 

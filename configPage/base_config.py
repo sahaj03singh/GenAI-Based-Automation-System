@@ -59,8 +59,34 @@ BASE_CONFIG = {
     "modal_buttons": {},            
     "sidebar": {},                  # {label: ("by", "val")}
 
-    # ── The site's actual actions 
+   # ── The site's actual actions 
     "intent_actions": {},           # {intent_key: {...intent config...}}
+
+    # ── Generic flow templates (used by llm/test_generator.py) ───
+    # These describe the SHAPE of common multi-step flows so the
+    # step generator can synthesise them when a user story implies
+    # one (e.g. when login is referenced). Safe-empty here so a
+    # non-e-commerce site simply omits them and nothing breaks.
+    #
+    # login_flow: list of step dicts to prepend when a test case
+    # references login. Each step is {action, target, value}.
+    # Empty list = no login flow synthesis.
+    "login_flow": [],
+
+    # checkout_flow: list of step descriptors used when a test
+    # references checkout / payment / place-order. Each entry is
+    # {action, target_keywords} — the generator finds the matching
+    # intent in intent_actions and uses its first match phrase as
+    # the target. Empty list = no checkout flow synthesis.
+    "checkout_flow": [],
+
+    # ── Domain-specific value extraction (generic mechanism) ─────
+    # When a step's target matches one of the patterns below, the
+    # corresponding regex is run against the step text to extract
+    # a value. Lets e-commerce sites pull sizes/colours/prices, and
+    # other domains define their own (dates, codes, etc.).
+    # Empty dict = numeric extraction only (built-in fallback).
+    "value_patterns": {},
 
     # ── Misc (read in a couple of places, safe-empty) 
     "order_success_keywords": [

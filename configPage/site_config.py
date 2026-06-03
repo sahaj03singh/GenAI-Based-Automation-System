@@ -356,6 +356,16 @@ SITE_OVERRIDES = {
             "field_type": "password",
             "data_key": "password",
         },
+        "invalid_login_password": {
+            "type": "form_field",
+            "match": [
+                "invalid login password", "enter invalid login password",
+                "wrong login password", "enter wrong login password",
+            ],
+            "field_hints": ["login-password", "password"],
+            "field_type": "password",
+            "data_key": "invalid_password",
+        },
 
         # ── login_button ─────────────────────────────────────────
         # Draft markers resolved:
@@ -456,8 +466,70 @@ SITE_OVERRIDES = {
             "wait_for_url_fragment": "/product_details/",
         },
     },
+
+    # ── Login flow template (used by test_generator) ─────────────
+    # When a user story references login, these steps are
+    # synthesised in order before the actual test actions.
+    # Site-specific: a site without login simply omits this key.
+    "login_flow": [
+        {"action": "navigate", "target": "homepage",       "value": ""},
+        {"action": "verify",   "target": "homepage loaded", "value": ""},
+        {"action": "click",    "target": "login",           "value": ""},
+        {"action": "type",     "target": "email",           "value": ""},
+        {"action": "type",     "target": "password",        "value": ""},
+        {"action": "click",    "target": "login button",    "value": ""},
+        {"action": "verify",   "target": "logged in",       "value": ""},
+    ],
+
+    # ── Checkout flow template (used by test_generator) ──────────
+    # The generator looks up an intent in intent_actions whose match
+    # list contains any of `target_keywords`, and uses that intent's
+    # first match phrase as the JSON target. This lets the same
+    # template work whether the site says "proceed to checkout" or
+    # "go to checkout" or "checkout now".
+    "checkout_flow": [
+        {"action": "click",  "target_keywords": ["proceed to checkout", "checkout"]},
+        {"action": "type",   "target_keywords": ["message box", "comment", "order note"]},
+        {"action": "click",  "target_keywords": ["place order", "confirm order"]},
+        {"action": "type",   "target_keywords": ["card name", "name on card"]},
+        {"action": "type",   "target_keywords": ["card number", "credit card"]},
+        {"action": "type",   "target_keywords": ["cvc", "cvv"]},
+        {"action": "type",   "target_keywords": ["expiry month", "exp month"]},
+        {"action": "type",   "target_keywords": ["expiry year", "exp year"]},
+        {"action": "click",  "target_keywords": ["pay and confirm", "pay now", "submit payment"]},
+        {"action": "verify", "target_keywords": ["order confirmed"]},
+    ],
+
+    # ── Value extraction patterns (used by test_generator) ───────
+    # When a step's target matches `target_substrings`, the regex
+    # is run against the step text to pull out a value (e.g. a
+    # quantity number or a size letter).
+    # A non-e-commerce site would define its own patterns here.
+    "value_patterns": {
+        "price_threshold": {
+            "target_substrings": [
+                "price less than", "price more than", "price greater",
+                "price under", "price above", "below", "more than", "less than",
+            ],
+            "regex": r"\d+(?:\.\d+)?",
+        },
+        "quantity": {
+            "target_substrings": ["quantity", "qty", "set quantity"],
+            "regex": r"\d+(?:\.\d+)?",
+        },
+        "size": {
+            "target_substrings": ["size"],
+            "regex": r"\b(XS|S|M|L|XL|XXL|XXXL|small|medium|large|extra small|extra large|\d{1,3})\b",
+        },
+        "colour": {
+            "target_substrings": ["colour", "color"],
+            "regex": r"\b(black|white|red|blue|green|silver|gold|yellow|pink|purple|grey|gray|brown|orange)\b",
+        },
+        "storage": {
+            "target_substrings": ["storage"],
+            "regex": r"\b(\d{2,4}\s?(?:GB|TB|MB))\b",
+        },
+    },
 }
-
-
 # Merge the site overrides onto the static base contract.
 SITE_CONFIG = build_site_config(SITE_OVERRIDES)

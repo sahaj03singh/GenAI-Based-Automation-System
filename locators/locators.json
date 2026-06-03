@@ -1,7 +1,7 @@
 {
   "search bar": {
     "by": "xpath",
-    "value": "//input[@id='search_bar']",
+    "value": "//input[@id='search']",
     "confidence": 0.85
   },
   "quantity": {
@@ -21,7 +21,7 @@
   },
   "subscribe button": {
     "by": "xpath",
-    "value": "//a[text()='signup / login']",
+    "value": "//button[@id='subscribe']",
     "confidence": 0.85
   },
   "contact us page": {
@@ -31,12 +31,12 @@
   },
   "contact name": {
     "by": "xpath",
-    "value": "//a[text()='contact us']",
+    "value": "//input[@name='name']",
     "confidence": 0.85
   },
   "contact subject": {
     "by": "xpath",
-    "value": "//a[text()='contact us']",
+    "value": "//input[@name='subject']",
     "confidence": 0.85
   },
   "submit contact form": {
@@ -81,12 +81,97 @@
   },
   "login": {
     "by": "xpath",
-    "value": "//a[@id='logout']",
+    "value": "//a[text()='signup / login']",
     "confidence": 0.85
   },
   "login password": {
     "by": "xpath",
     "value": "//input[@id='login_password']",
+    "confidence": 0.85
+  },
+  "contact email": {
+    "by": "xpath",
+    "value": "//input[@name='email']",
+    "confidence": 0.85
+  },
+  "contact message": {
+    "by": "xpath",
+    "value": "//textarea[@id='message']",
+    "confidence": 0.85
+  },
+  "login name": {
+    "by": "xpath",
+    "value": "//input[@id='name']",
+    "confidence": 0.85
+  },
+  "login review text": {
+    "by": "xpath",
+    "value": "//textarea[@id='review']",
+    "confidence": 0.85
+  },
+  "logout button": {
+    "by": "xpath",
+    "value": "//button[@id='subscribe']",
+    "confidence": 0.85
+  },
+  "delete account button": {
+    "by": "xpath",
+    "value": "//button[@id='subscribe']",
+    "confidence": 0.85
+  },
+  "footer": {
+    "by": "xpath",
+    "value": "//input[@id='susbscribe_email']",
+    "confidence": 0.85
+  },
+  "contact us link": {
+    "by": "xpath",
+    "value": "//a[text()='contact us']",
+    "confidence": 0.85
+  },
+  "submit contact button": {
+    "by": "xpath",
+    "value": "//input[@name='submit']",
+    "confidence": 0.85
+  },
+  "recommended items section": {
+    "by": "xpath",
+    "value": "//a[text()='products']",
+    "confidence": 0.85
+  },
+  "bottom of page": {
+    "by": "xpath",
+    "value": "//a[text()='signup / login']",
+    "confidence": 0.85
+  },
+  "scroll to top button": {
+    "by": "xpath",
+    "value": "//button[@id='submit_search']",
+    "confidence": 0.85
+  },
+  "cart quantity": {
+    "by": "xpath",
+    "value": "//input[@name='csrfmiddlewaretoken']",
+    "confidence": 0.85
+  },
+  "contact us": {
+    "by": "xpath",
+    "value": "//a[text()='contact us']",
+    "confidence": 0.85
+  },
+  "signup login link": {
+    "by": "xpath",
+    "value": "//a[text()='signup / login']",
+    "confidence": 0.85
+  },
+  "subscription email": {
+    "by": "xpath",
+    "value": "//input[@id='subscription_email']",
+    "confidence": 0.85
+  },
+  "password": {
+    "by": "xpath",
+    "value": "//input[@name='password']",
     "confidence": 0.85
   }
 }

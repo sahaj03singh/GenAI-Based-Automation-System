@@ -3,11 +3,22 @@ test_generator.py — LLM-driven user story to step converter.
 
 Place this file at: llm/test_generator.py
 
-Changes vs the previous version:
-1. Per-test-case caching (not whole-file caching) via cache_manager
-2. Feedback-enriched prompts when a test case is suspect
-3. Single parse_user_stories() — duplicate function removed
-4. Tracks LLM cost savings via cache hits
+This module is fully site-agnostic. All site-specific knowledge
+(login flow shape, checkout flow shape, domain value-extraction
+patterns) lives in configPage/site_config.py and is read at runtime
+from SITE_CONFIG. A site that doesn't have e-commerce / login /
+checkout simply omits those keys and the generator skips them
+gracefully.
+
+Changes log:
+1. Per-test-case caching via cache_manager (Apr-May 2026)
+2. Feedback-enriched prompts on regeneration (May 2026)
+3. (Jun 2026) Hardcoded e-commerce assumptions moved to site_config:
+   - login flow now reads SITE_CONFIG['login_flow']
+   - checkout flow now reads SITE_CONFIG['checkout_flow']
+   - value extraction now reads SITE_CONFIG['value_patterns']
+4. (Jun 2026) LLM prompt rewritten with strict target-preservation
+   rules; temperature lowered to 0 for deterministic output.
 """
 
 from openai import OpenAI
@@ -96,42 +107,39 @@ def _extract_number_from_text(text):
 def _looks_like_value_for_target(target_phrase, text):
     """
     Decide whether this step needs a value extracted from text.
-    For price/quantity/size/storage etc.
+
+    Reads SITE_CONFIG['value_patterns'] which is a dict of:
+       {
+         "pattern_name": {
+            "target_substrings": [...],
+            "regex": r"..."
+         },
+         ...
+       }
+
+    For each pattern, if the target_phrase contains any of the
+    pattern's target_substrings, the pattern's regex is run against
+    the text. The first match is returned.
+
+    If value_patterns is empty (e.g. a non-e-commerce site), a
+    built-in numeric fallback still works for any target.
     """
     t = target_phrase.lower()
-    if any(x in t for x in [
-        "price less than", "price more than", "price greater",
-        "price under", "price above", "below", "more than", "less than",
-        "quantity", "qty", "set quantity",
-    ]):
-        return _extract_number_from_text(text)
+    value_patterns = SITE_CONFIG.get("value_patterns", {})
 
-    if "size" in t:
-        m = re.search(
-            r"\b(XS|S|M|L|XL|XXL|XXXL|small|medium|large|"
-            r"extra small|extra large|\d{1,3})\b",
-            text, re.IGNORECASE
-        )
-        if m:
-            return m.group(0)
+    for pattern_name, pattern_cfg in value_patterns.items():
+        substrings = pattern_cfg.get("target_substrings", [])
+        regex_str  = pattern_cfg.get("regex", "")
+        if not substrings or not regex_str:
+            continue
+        if any(sub in t for sub in substrings):
+            m = re.search(regex_str, text, re.IGNORECASE)
+            if m:
+                return m.group(0)
 
-    if "colour" in t or "color" in t:
-        m = re.search(
-            r"\b(black|white|red|blue|green|silver|gold|"
-            r"yellow|pink|purple|grey|gray|brown|orange)\b",
-            text, re.IGNORECASE
-        )
-        if m:
-            return m.group(0)
-
-    if "storage" in t:
-        m = re.search(
-            r"\b(\d{2,4}\s?(?:GB|TB|MB))\b",
-            text, re.IGNORECASE
-        )
-        if m:
-            return m.group(0)
-
+    # No site pattern matched. We don't second-guess by extracting
+    # a number — that would surprise users with target phrases that
+    # happen to contain digits. Return empty.
     return ""
 
 
@@ -150,6 +158,16 @@ def _site_has_intent(keyword_substrings):
 
 
 def _build_login_section(login_requested):
+    """
+    Build the LOGIN FLOW section of the LLM prompt.
+
+    Reads SITE_CONFIG['login_flow'] — a list of step dicts. If the
+    site doesn't define one (or it's empty), no login section is
+    included and the LLM won't synthesise login steps.
+
+    When login_requested is False, an explicit "do not include
+    login" instruction is returned regardless of site config.
+    """
     if not login_requested:
         return (
             "DO NOT include any login or signup steps in the output. "
@@ -157,84 +175,95 @@ def _build_login_section(login_requested):
             "Start the test directly from: navigate -> homepage\n"
         )
 
-    if not _site_has_intent(["login", "sign in", "email", "password"]):
+    login_flow = SITE_CONFIG.get("login_flow", [])
+    if not login_flow:
+        # Site has no login flow defined — nothing to synthesise.
         return ""
 
+    lines = []
+    for i, step in enumerate(login_flow, start=1):
+        action = step.get("action", "")
+        target = step.get("target", "")
+        lines.append(f"{i}. {action:8s} -> {target}")
+
     return (
-        "LOGIN FLOW (include these steps in this order, "
-        "before the test actions):\n"
-        "1. navigate -> homepage\n"
-        "2. verify  -> homepage loaded\n"
-        "3. click   -> login\n"
-        "4. type    -> email\n"
-        "5. type    -> password\n"
-        "6. click   -> login button\n"
-        "7. verify  -> logged in\n"
+        "LOGIN FLOW (include these steps in this order, before the "
+        "test actions):\n"
+        + "\n".join(lines)
+        + "\n"
     )
 
 
 def _build_checkout_section():
-    has_checkout = _site_has_intent([
-        "proceed to checkout", "place order",
-        "pay and confirm", "pay now",
-    ])
-    if not has_checkout:
+    """
+    Build the CHECKOUT FLOW section of the LLM prompt.
+
+    Reads SITE_CONFIG['checkout_flow'] — a list of
+    {action, target_keywords} descriptors. For each descriptor, we
+    look up an intent in intent_actions whose match list contains
+    any of the target_keywords, and use that intent's first match
+    phrase as the actual target.
+
+    If the site has no checkout_flow, or none of its descriptors
+    resolve to a real intent, no checkout section is added.
+    """
+    checkout_flow = SITE_CONFIG.get("checkout_flow", [])
+    if not checkout_flow:
         return ""
 
+    intents       = SITE_CONFIG.get("intent_actions", {})
+    verify_kws    = SITE_CONFIG.get("verify_keywords", {})
+
     sequence = []
-    intents = SITE_CONFIG.get("intent_actions", {})
-
-    ordered_step_substrings = [
-        ("click",  ["proceed to checkout", "checkout"]),
-        ("type",   ["message box", "comment", "order note"]),
-        ("click",  ["place order", "confirm order"]),
-        ("type",   ["card name", "name on card"]),
-        ("type",   ["card number", "credit card"]),
-        ("type",   ["cvc", "cvv"]),
-        ("type",   ["expiry month", "exp month"]),
-        ("type",   ["expiry year", "exp year"]),
-        ("click",  ["pay and confirm", "pay now",
-                    "submit payment"]),
-        ("verify", ["order confirmed"]),
-    ]
-
     step_letter = ord('A')
-    for action, subs in ordered_step_substrings:
-        target = None
-        for intent_cfg in intents.values():
-            for kw in intent_cfg.get("match", []):
-                if any(sub in kw.lower() for sub in subs):
-                    target = kw
-                    break
-            if target:
-                break
+
+    for descriptor in checkout_flow:
+        action     = descriptor.get("action", "")
+        target_kws = descriptor.get("target_keywords", [])
+        target     = None
 
         if action == "verify":
-            for vkey in SITE_CONFIG.get("verify_keywords", {}).keys():
-                if any(sub in vkey.lower() for sub in subs):
+            # Verify targets come from verify_keywords, not intents.
+            for vkey in verify_kws.keys():
+                if any(sub in vkey.lower() for sub in target_kws):
                     target = vkey
+                    break
+        else:
+            # Click/type targets come from intent_actions.
+            for intent_cfg in intents.values():
+                for kw in intent_cfg.get("match", []):
+                    if any(sub in kw.lower() for sub in target_kws):
+                        target = kw
+                        break
+                if target:
                     break
 
         if target:
             sequence.append(
-                f"Step {chr(step_letter)}: "
-                f"{action} -> {target}"
+                f"Step {chr(step_letter)}: {action} -> {target}"
             )
             step_letter += 1
 
     if not sequence:
+        # Site declared a checkout flow but none of its descriptors
+        # resolved to real intents — skip the section silently.
         return ""
 
     return (
         "CHECKOUT FLOW (only if the test case mentions checkout / "
-        "payment / place order — follow this order strictly, "
-        "never skip a step):\n"
+        "payment / place order — follow this order strictly, never "
+        "skip a step):\n"
         + "\n".join(sequence)
         + "\n"
     )
 
 
 def _build_action_vocabulary():
+    """
+    Build a reference list of all action+target combinations the
+    site supports, for the LLM prompt. Used as a reference only —
+    the LLM is explicitly told NOT to constrain itself to this list.
+    """
     intents = SITE_CONFIG.get("intent_actions", {})
     examples = []
 
@@ -287,7 +316,6 @@ def extract_test_cases(file_path):
                     steps.append(parts[1].strip())
 
         if steps:
-            # raw_text is title + step lines — input to semantic hash
             raw_text = title + "\n" + "\n".join(steps)
             test_cases.append({
                 "name":     title,
@@ -298,20 +326,38 @@ def extract_test_cases(file_path):
     return test_cases
 
 
-def _is_login_requested():
-    try:
-        with open("userstories.txt") as f:
-            story = f.read().lower()
-        return any(
-            kw in story for kw in [
-                "login", "sign in", "sign-in",
-                "enter email", "enter password",
-                "click login", "signup",
-            ]
-        )
-    except Exception:
+def _is_login_requested(test_case=None):
+    """
+    Decide whether the LLM prompt should include the login_flow.
+
+    Reads the current TEST CASE's name + step text (not the whole
+    userstories.txt file). Previous version read the whole file,
+    which meant ANY test mentioning login caused EVERY test to get
+    the login flow prepended — major source of false failures.
+
+    Args:
+        test_case: dict with 'name' and 'steps' keys. If None,
+                   conservatively returns True (preserves old
+                   behaviour for any caller that hasn't been
+                   updated yet).
+    """
+    if test_case is None:
         return True
 
+    text_parts = [test_case.get("name", "")]
+    text_parts.extend(test_case.get("steps", []))
+    text = " ".join(text_parts).lower()
+
+    return any(
+        kw in text for kw in [
+            "login", "sign in", "sign-in",
+            "enter email", "enter password",
+            "click login", "signup",
+            # NOTE: deliberately NOT including "email" or "password"
+            # alone — many forms have email/password fields without
+            # being a login (e.g. subscribe, contact, register).
+        ]
+    )
 
 def normalize_steps(raw_steps):
     """
@@ -426,7 +472,7 @@ def validate_and_fix_flow(steps):
             ]):
                 PAYMENT_TRIGGERS.add(kw_lower)
 
-    login_requested = _is_login_requested()
+    login_requested = _is_login_requested(None)
 
     fixed = []
     targets_seen = set()
@@ -465,9 +511,21 @@ def convert_steps_with_llm(test_case, failure_context: str = ""):
         test_case: dict with 'name' and 'steps' keys
         failure_context: optional string with previous failure details,
                         embedded into the prompt to inform regeneration.
+
+    Prompt design notes (Jun 2026 rewrite):
+      - Temperature is 0 — we want deterministic output, not creativity.
+      - The vocabulary list is shown only as a reference for what
+        action verbs exist (click / type / verify / scroll / navigate).
+      - The LLM is explicitly told NOT to substitute targets. The
+        target field must come from the user-story step text, even
+        if it doesn't appear in the vocabulary list.
+      - Without this discipline, the LLM "helpfully corrects" a step
+        like 'Enter subscription email' to 'type -> search bar',
+        which silently breaks any test using a custom intent
+        (TC26 subscribe, TC27 contact, TC31 invalid password, etc.)
     """
     steps_text      = "\n".join(test_case["steps"])
-    login_requested = _is_login_requested()
+    login_requested = _is_login_requested(test_case)
 
     login_section      = _build_login_section(login_requested)
     checkout_section   = _build_checkout_section()
@@ -483,35 +541,83 @@ def convert_steps_with_llm(test_case, failure_context: str = ""):
         )
 
     prompt = f"""
-You are a test automation engineer converting plain English test
-steps into a structured JSON array for browser automation.
+You convert plain English test steps into a structured JSON array
+for browser automation. The output is consumed by a deterministic
+matcher — not by a human reader — so accuracy of the `target` field
+matters more than natural language.
 {feedback_section}
 {login_section}
 {checkout_section}
-SUPPORTED ACTIONS AND TARGETS (use phrases close to these):
+
+============================================================
+CRITICAL RULES — read carefully, these are not optional
+============================================================
+
+RULE 1: PRESERVE THE TARGET TEXT FROM THE USER STORY.
+    Do NOT substitute targets. If the user step says
+    'Enter contact name', the JSON target MUST be 'contact name'
+    (or similar) — NOT 'search bar', NOT 'email field',
+    NOT 'name field'.
+
+    Examples of correct preservation:
+      User step: "Enter subscription email"
+        → {{"action":"type","target":"subscription email","value":""}}
+      User step: "Enter invalid login password"
+        → {{"action":"type","target":"invalid login password","value":""}}
+      User step: "Verify recommended items section visible"
+        → {{"action":"verify","target":"recommended items section visible","value":""}}
+      User step: "Click remove cart item"
+        → {{"action":"click","target":"remove cart item","value":""}}
+
+    Examples of WRONG substitution (do not do this):
+      User step: "Enter contact name"
+        ✗ {{"action":"type","target":"search bar"}}  ← WRONG
+        ✗ {{"action":"type","target":"name"}}        ← WRONG (too generic)
+        ✓ {{"action":"type","target":"contact name"}} ← CORRECT
+      User step: "Verify login error visible"
+        ✗ {{"action":"verify","target":"search results visible"}}  ← WRONG
+        ✓ {{"action":"verify","target":"login error visible"}}      ← CORRECT
+
+RULE 2: PRESERVE THE VERB-TO-ACTION MAPPING.
+    "Open" / "Navigate to" / "Go to" → action: "navigate"
+    "Click" / "Press" / "Tap" → action: "click"
+    "Enter" / "Type" / "Fill in" / "Set" → action: "type"
+    "Verify" / "Check" / "Assert" / "Confirm" → action: "verify"
+    "Scroll" → action: "scroll"
+
+RULE 3: EXTRACT NUMBERS INTO `value`, NOT TARGET.
+    "Select the product with price less than 500"
+      → {{"action":"click","target":"product with price less than","value":"500"}}
+    "Set quantity to 3"
+      → {{"action":"type","target":"quantity","value":"3"}}
+
+RULE 4: ONE USER STEP = EXACTLY ONE JSON STEP.
+    Do NOT split one user step into multiple JSON steps.
+    Do NOT merge two user steps into one.
+    Do NOT add steps the user did not write.
+    Do NOT remove steps the user did write.
+    If the user gave N steps, return N steps (plus the login
+    flow above if applicable).
+
+RULE 5: VOCABULARY LIST IS A REFERENCE, NOT A CONSTRAINT.
+    The list below shows what action types exist and gives example
+    target phrases. Your job is NOT to match against this list —
+    your job is to faithfully translate the user's step text into
+    structured form. Custom target phrases not in this list are
+    expected and correct.
+
+============================================================
+
+ACTION VOCABULARY REFERENCE (action types only — target text
+should come from the user story, even if it doesn't appear here):
 {action_vocabulary}
 
-GENERAL RULES:
-- Convert ONLY what the test case steps describe
-- DO NOT add steps that are not in the test case
-- DO NOT hallucinate steps like "non-deal price" or
-  "apply filter" if not in the test case
-- Only use these actions: click, type, verify, navigate, scroll
-- For numerical constraints (price, quantity), put the number in
-  the "value" field, e.g.
-    {{"action": "click",
-     "target": "product with price less than",
-     "value": "500"}}
-- For size/colour/storage selection, put the variant in "value":
-    {{"action": "click", "target": "select size", "value": "M"}}
+============================================================
 
-Return ONLY a valid JSON array. No explanation, no markdown:
-[
-  {{"action": "navigate", "target": "homepage", "value": ""}},
-  ...
-]
+Return ONLY a valid JSON array. No explanation, no markdown fence,
+no preamble. Start the response with '[' and end with ']'.
 
-Test case steps to convert:
+Test case steps to convert (one JSON step per line below):
 {steps_text}
 """
 
@@ -519,6 +625,7 @@ Test case steps to convert:
         model="gpt-4o-mini",
         messages=[{"role": "user", "content": prompt}],
         max_tokens=2000,
+        temperature=0,   # deterministic; no creativity wanted
     )
 
     content = response.choices[0].message.content
@@ -582,10 +689,8 @@ def parse_user_stories(file_path):
         name = case["name"]
         semantic_hash = compute_semantic_hash(case["raw_text"])
 
-        # Decide whether to regenerate
         regenerate, reason = should_regenerate(name, semantic_hash)
 
-        # Even if the cache says HIT, we need the steps to exist
         if not regenerate and name not in existing:
             regenerate = True
             reason = "MISS (cache marked HIT but JSON entry missing)"
@@ -599,7 +704,6 @@ def parse_user_stories(file_path):
             cache_hits += 1
             continue
 
-        # Regenerate via LLM
         print(f"  [{name}] {reason} — regenerating")
         failure_context = get_failure_context(name)
         if failure_context:
@@ -614,12 +718,9 @@ def parse_user_stories(file_path):
             "steps": steps,
         })
 
-        # Record in cache
         record_generation(name, semantic_hash)
         regen_count += 1
 
-    # ── Cost-savings summary (rough) ──────────────────────────────
-    # Each LLM call is ~1500 tokens at ~£0.005/test case for gpt-4o-mini.
     cost_saved = cache_hits * 0.005
     print("─" * 50)
     print(
@@ -629,7 +730,6 @@ def parse_user_stories(file_path):
         print(f"💰 Estimated cost saved this run: ~£{cost_saved:.3f}")
     print("─" * 50)
 
-    # Write merged result
     os.makedirs("tests_generated", exist_ok=True)
     with open(GENERATED_STEPS_FILE, "w") as f:
         json.dump(structured_tests, f, indent=2)

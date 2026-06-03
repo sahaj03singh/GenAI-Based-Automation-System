@@ -11,6 +11,18 @@ Strict pass criteria:
 This matches production CI/CD standards where any step-level
 instability indicates fragility worth flagging.
 
+NEW (per-test respawn): Each test case now runs in a fresh Chrome
+instance. The driver passed in from the pytest fixture is closed
+immediately, and a new driver is created/quit per test case.
+
+Why: gives every test a clean cart, clean login session, clean
+cookies, and a freshly-dismissed consent popup. Eliminates the
+five state-bleed false positives observed in the 50-test audit
+(TC37, TC42, TC46, TC49 and the TC29 register-as-existing-user case).
+
+Cost: each spawn/quit adds ~3–4 seconds. On a 50-test run that's
+roughly 2–3 extra minutes — acceptable trade for genuine isolation.
+
 NEW: Records each test outcome to cache_manager for the feedback loop.
 Future runs use this data to decide whether to regenerate steps.
 """
@@ -19,6 +31,7 @@ from utils.actions import execute_step, reset_session
 from utils.reporter import clear_logs
 from utils.report_builder import generate_html_report
 from utils.cache_manager import record_outcome
+from utils.driver_factory import create_driver
 from configPage.site_config import SITE_CONFIG
 
 BASE_URL = SITE_CONFIG["base_url"]
@@ -36,12 +49,23 @@ def _first_failed_step(step_results):
     return None, None
 
 
+def _quit_quietly(driver):
+    """Quit a driver; never raise."""
+    try:
+        driver.quit()
+    except Exception:
+        pass
+
+
 def run_tests(driver):
     """
-    Run all generated test cases in strict mode.
+    Run all generated test cases in strict mode, each in a fresh
+    Chrome instance.
 
-    The driver passed in is wrapped by conftest.py — every driver.get()
-    automatically dismisses cookie/consent popups.
+    The `driver` argument is the one created by the pytest fixture
+    in conftest.py. We close it immediately and spawn a new one
+    per test case, so each test starts from a guaranteed clean
+    browser state (no cookies, no cart, no login session).
     """
     from llm.test_generator import load_generated_steps
 
@@ -53,58 +77,98 @@ def run_tests(driver):
         print("   Did you run llm/test_generator.parse_user_stories()?")
         return []
 
-    for test in all_tests:
+    # The fixture-supplied driver is not used. Close it so we don't
+    # have an idle Chrome sitting around eating memory.
+    print("🔒 Closing pytest-fixture driver — per-test respawn enabled")
+    _quit_quietly(driver)
+
+    for test_index, test in enumerate(all_tests, start=1):
         print(f"\n{'=' * 50}")
-        print(f"🚀 Running: {test['name']}")
+        print(f"🚀 Running ({test_index}/{len(all_tests)}): {test['name']}")
         print("=" * 50)
 
-        # ── Reset for each test ──────────────────────────────────
+        # ── Spawn a fresh Chrome for this test ───────────────────
+        try:
+            test_driver = create_driver()
+        except Exception as e:
+            print(f"❌ Could not start Chrome for this test: {e}")
+            # Record as a fail and move on to the next test.
+            all_results.append({
+                "name":       test["name"],
+                "passed":     False,
+                "status":     "FAIL",
+                "confidence": 0.0,
+                "details": {
+                    "steps_passed": 0,
+                    "steps_failed": 1,
+                    "steps_healed": 0,
+                    "total_steps":  1,
+                },
+                "screenshots": [],
+                "step_logs": [{
+                    "log":        f"[FAIL] driver_create → {e}",
+                    "status":     "FAIL",
+                    "action":     "driver_create",
+                    "target":     "",
+                    "confidence": 0.0,
+                    "screenshot": None,
+                }],
+            })
+            continue
+
+        # ── Reset framework state for this test ──────────────────
         reset_session()
         clear_logs()
-        driver.get(BASE_URL)   # popup handler runs via conftest wrapper
+
+        # Initial navigation — popup wrapper inside the driver handles consent.
+        test_driver.get(BASE_URL)
 
         step_results = []
         screenshots  = []
         step_logs    = []
 
         # ── Execute each step ────────────────────────────────────
-        for step in test["steps"]:
-            result = execute_step(driver, step)
-            result.setdefault("confidence", 0.0)
-            result.setdefault("passed",     False)
-            # Keep step reference so we can attribute failures
-            result.setdefault("step", step)
+        try:
+            for step in test["steps"]:
+                result = execute_step(test_driver, step)
+                result.setdefault("confidence", 0.0)
+                result.setdefault("passed",     False)
+                result.setdefault("step",       step)
 
-            step_results.append(result)
+                step_results.append(result)
 
-            if result.get("healed"):
-                status = "HEALED"
-            elif result["passed"]:
-                status = "PASS"
-            elif result["confidence"] > 0.4:
-                status = "WARN"
-            else:
-                status = "FAIL"
+                if result.get("healed"):
+                    status = "HEALED"
+                elif result["passed"]:
+                    status = "PASS"
+                elif result["confidence"] > 0.4:
+                    status = "WARN"
+                else:
+                    status = "FAIL"
 
-            action     = step.get("action", "")
-            target     = step.get("target", "")
-            confidence = result["confidence"]
-            screenshot = result.get("screenshot")
+                action     = step.get("action", "")
+                target     = step.get("target", "")
+                confidence = result["confidence"]
+                screenshot = result.get("screenshot")
 
-            step_logs.append({
-                "log": (
-                    f"[{status}] {action} → {target} "
-                    f"(conf: {round(confidence, 2)})"
-                ),
-                "status":     status,
-                "action":     action,
-                "target":     target,
-                "confidence": confidence,
-                "screenshot": screenshot,
-            })
+                step_logs.append({
+                    "log": (
+                        f"[{status}] {action} → {target} "
+                        f"(conf: {round(confidence, 2)})"
+                    ),
+                    "status":     status,
+                    "action":     action,
+                    "target":     target,
+                    "confidence": confidence,
+                    "screenshot": screenshot,
+                })
 
-            if screenshot:
-                screenshots.append(screenshot)
+                if screenshot:
+                    screenshots.append(screenshot)
+        finally:
+            # Always close this test's browser before moving on,
+            # even if execution raised partway through.
+            _quit_quietly(test_driver)
 
         # ── Per-test summary ─────────────────────────────────────
         total    = len(step_results)
@@ -142,7 +206,6 @@ def run_tests(driver):
                 failure_reason = failure_reason,
             )
         except Exception as e:
-            # Cache recording must never break test execution
             print(f"[CACHE] ⚠️ outcome recording failed: {e}")
 
         all_results.append({

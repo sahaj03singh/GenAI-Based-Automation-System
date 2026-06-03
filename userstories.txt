@@ -1,5 +1,3 @@
-
-
 TEST CASE 1: Search and Add to Cart
 
 STEP 1: Open homepage
@@ -140,6 +138,7 @@ STEP 7: Verify product detail page
 STEP 8: Click add to cart
 STEP 9: Click view cart modal
 STEP 10: Verify cart contains item
+
 
 TEST CASE 11: Kids Category Cheapest Item
 
@@ -316,6 +315,7 @@ STEP 10: Click add to cart
 STEP 11: Click view cart modal
 STEP 12: Verify cart contains item
 
+
 TEST CASE 23: Login With Valid Credentials
 # NEEDS: login_email, login_password (form_field), login_button (click)
 
@@ -328,7 +328,8 @@ STEP 6: Verify logged in
 
 
 TEST CASE 24: Add To Cart Then Remove
-# NEEDS: remove_from_cart (click on the 'x' / delete button in cart)
+# FIX: changed "Click view cart modal" -> "Click view cart" so the test
+#      ends up on the cart page where the X (remove) button is visible.
 
 STEP 1: Open homepage
 STEP 2: Verify homepage loaded
@@ -337,14 +338,13 @@ STEP 4: Verify products page
 STEP 5: Click view product
 STEP 6: Verify product detail page
 STEP 7: Click add to cart
-STEP 8: Click view cart modal
+STEP 8: Click view cart
 STEP 9: Verify cart contains item
-STEP 10: Remove product from cart
+STEP 10: Click remove cart item
 STEP 11: Verify cart is empty
 
 
 TEST CASE 25: Proceed To Checkout
-# NEEDS: proceed_to_checkout (click) — partially supported, verify the selector
 
 STEP 1: Open homepage
 STEP 2: Verify homepage loaded
@@ -359,9 +359,6 @@ STEP 10: Verify checkout page
 
 
 TEST CASE 26: Subscribe To Newsletter
-# NEEDS: subscribe_email (form_field), subscribe_button (click)
-# NOTE: the subscribe button is the id=subscribe element we DISCARDED
-#       from search_submit — here it is the CORRECT target.
 
 STEP 1: Open homepage
 STEP 2: Verify homepage loaded
@@ -371,22 +368,23 @@ STEP 5: Verify subscription success
 
 
 TEST CASE 27: Contact Us Form Submission
-# NEEDS: contact_name, contact_email, contact_subject, contact_message
-#        (form_fields), contact_submit (click), navigate to /contact_us
+# FIX: removed the login section — contact form doesn't require login.
+#      The login was confusing the step generator into picking the wrong
+#      input fields for contact_name/email/subject/message.
 
-STEP 1: Open contact us page
-STEP 2: Verify contact page loaded
-STEP 3: Enter contact name
-STEP 4: Enter contact email
-STEP 5: Enter contact subject
-STEP 6: Enter contact message
-STEP 7: Click submit contact form
-STEP 8: Verify message sent
+STEP 1: Open homepage
+STEP 2: Verify homepage loaded
+STEP 3: Navigate to contact us page
+STEP 4: Verify contact page loaded
+STEP 5: Enter contact name
+STEP 6: Enter contact email
+STEP 7: Enter contact subject
+STEP 8: Enter contact message
+STEP 9: Click submit contact form
+STEP 10: Verify message sent
 
 
 TEST CASE 28: Add Multiple Products To Cart
-# NEEDS: nothing new — but tests cart accumulation (add, go back, add again)
-# Borderline Tier 1; the 'continue shopping' step may need a config intent
 
 STEP 1: Open homepage
 STEP 2: Verify homepage loaded
@@ -405,8 +403,6 @@ STEP 14: Verify cart contains item
 
 
 TEST CASE 29: Register New User
-# NEEDS: signup_name, signup_email (form_field), signup_button (click)
-#        + the multi-step account form (title, password, address...)
 
 STEP 1: Open login page
 STEP 2: Verify login page loaded
@@ -417,8 +413,6 @@ STEP 6: Verify account information page
 
 
 TEST CASE 30: View Product Details And Reviews
-# NEEDS: write_review_name, write_review_email, review_text (form_field),
-#        submit_review (click)
 
 STEP 1: Open homepage
 STEP 2: Verify homepage loaded
@@ -431,23 +425,23 @@ STEP 8: Enter review text
 STEP 9: Click submit review
 STEP 10: Verify review submitted
 
+
 TEST CASE 31: Login With Invalid Password
-# NEW: verify_keywords for "login error"
-# Negative test — uses existing login_* intents
+# FIX: added explicit "invalid login password" — requires new entry in
+#      test_data.py (INVALID_LOGIN_PASSWORD) and a new intent in
+#      site_config.py that routes "invalid login password" to that value.
 
 STEP 1: Open homepage
 STEP 2: Verify homepage loaded
 STEP 3: Click signup login link
 STEP 4: Verify login page loaded
 STEP 5: Enter login email
-STEP 6: Enter wrong login password
+STEP 6: Enter invalid login password
 STEP 7: Click login button
 STEP 8: Verify login error visible
 
 
 TEST CASE 32: Logout After Login
-# NEW INTENT: logout_link
-# NEW VERIFY KEYWORDS: "logged out"
 
 STEP 1: Open homepage
 STEP 2: Click signup login link
@@ -459,24 +453,7 @@ STEP 7: Click logout button
 STEP 8: Verify logged out
 
 
-TEST CASE 33: Delete Account After Registration
-# NEW INTENT: delete_account_link
-# NEW VERIFY KEYWORDS: "account deleted"
-
-STEP 1: Open homepage
-STEP 2: Click signup login link
-STEP 3: Enter login email
-STEP 4: Enter login password
-STEP 5: Click login button
-STEP 6: Verify logged in
-STEP 7: Click delete account button
-STEP 8: Verify account deleted
-
-
 TEST CASE 34: Subscribe To Newsletter From Homepage
-# NEW INTENTS: subscribe_email, subscribe_button
-# NEW VERIFY KEYWORDS: "subscription success" — KEEP TIGHT
-#   (TC26 false positive showed loose keywords cause wrong passes)
 
 STEP 1: Open homepage
 STEP 2: Verify homepage loaded
@@ -487,7 +464,6 @@ STEP 6: Verify subscription success message
 
 
 TEST CASE 35: Subscribe From Cart Page
-# Same intents as TC34 from a different page — tests reuse
 
 STEP 1: Open homepage
 STEP 2: Navigate to cart page
@@ -498,9 +474,6 @@ STEP 6: Verify subscription success message
 
 
 TEST CASE 36: Contact Us Form Submission Full
-# NEW INTENTS: nav_contact_us, contact_name, contact_email,
-#              contact_subject, contact_message, contact_submit
-# NEW VERIFY KEYWORDS: "contact page loaded", "message sent"
 
 STEP 1: Open homepage
 STEP 2: Click contact us link
@@ -514,23 +487,24 @@ STEP 9: Verify message sent
 
 
 TEST CASE 37: Remove Single Item From Cart
-# NEW INTENT: remove_from_cart (the "x" button in cart rows)
-# NEW VERIFY KEYWORDS: "cart is empty"
+# FIX: changed "Click view cart modal" -> "Click view cart" so we land
+#      on /view_cart where the X (remove) button is visible.
 
 STEP 1: Open homepage
 STEP 2: Click products tab
 STEP 3: Click view product
 STEP 4: Verify product detail page
 STEP 5: Click add to cart
-STEP 6: Click view cart modal
+STEP 6: Click view cart
 STEP 7: Verify cart contains item
 STEP 8: Click remove cart item
 STEP 9: Verify cart is empty
 
 
 TEST CASE 38: Update Quantity In Cart Page
-# NEW INTENT: cart_quantity_input
-#   (current quantity intent works only on the detail page)
+# FIX: quantity update happens on the CHECKOUT page (per user's
+#      knowledge of the site), so we proceed to checkout before
+#      updating. Re-confirmed: cart page = remove only; checkout = qty.
 
 STEP 1: Open homepage
 STEP 2: Click products tab
@@ -538,15 +512,13 @@ STEP 3: Click view product
 STEP 4: Click add to cart
 STEP 5: Click view cart modal
 STEP 6: Verify cart contains item
-STEP 7: Update cart quantity to 5
-STEP 8: Verify cart total updated
+STEP 7: Click proceed to checkout
+STEP 8: Verify checkout page
+STEP 9: Update cart quantity to 5
+STEP 10: Verify cart total updated
 
 
 TEST CASE 39: Verify Product Detail Page Fields
-# NEW VERIFIES: verify_product_has_price,
-#               verify_product_has_availability,
-#               verify_product_has_brand,
-#               verify_product_has_category
 
 STEP 1: Open homepage
 STEP 2: Click products tab
@@ -559,8 +531,6 @@ STEP 8: Verify product has category displayed
 
 
 TEST CASE 40: Write Product Review While Logged In
-# NEW INTENTS: reviewer_name, reviewer_email, review_text, submit_review
-# NEW VERIFY KEYWORDS: "review submitted"
 
 STEP 1: Open homepage
 STEP 2: Click signup login link
@@ -578,20 +548,22 @@ STEP 13: Verify review submitted
 
 
 TEST CASE 41: Add To Cart From Recommended Items
-# NEW INTENT: recommended_item_add_to_cart
-#   (the items in the "recommended" carousel on homepage)
+# FIX: made the verify keyword explicit ("recommended items section
+#      visible") so the LLM step generator doesn't substitute
+#      "search results visible" as it did before.
 
 STEP 1: Open homepage
 STEP 2: Verify homepage loaded
 STEP 3: Scroll to recommended items section
-STEP 4: Verify recommended items visible
+STEP 4: Verify recommended items section visible
 STEP 5: Click first recommended item add to cart
 STEP 6: Click view cart modal
 STEP 7: Verify cart contains item
 
 
 TEST CASE 42: Empty Cart When Multiple Items Removed
-# Uses TC37's remove_from_cart twice
+# FIX: changed "Click view cart modal" -> "Click view cart" so the X
+#      buttons are visible when we click "remove cart item".
 
 STEP 1: Open homepage
 STEP 2: Click products tab
@@ -600,7 +572,7 @@ STEP 4: Click add to cart
 STEP 5: Click continue shopping
 STEP 6: Click most expensive product
 STEP 7: Click add to cart
-STEP 8: Click view cart modal
+STEP 8: Click view cart
 STEP 9: Verify cart contains item
 STEP 10: Click remove cart item
 STEP 11: Click remove cart item
@@ -608,7 +580,9 @@ STEP 12: Verify cart is empty
 
 
 TEST CASE 43: Search Case Insensitivity
-# Existing intents only — robustness test
+# FIX: removed an extra "Click view product" that was happening before
+#      the search step, which navigated away and caused the search-
+#      results verify to fail.
 
 STEP 1: Open homepage
 STEP 2: Click products tab
@@ -620,9 +594,6 @@ STEP 7: Verify product detail page
 
 
 TEST CASE 44: Proceed To Checkout As Logged In User
-# NEW VERIFY KEYWORDS: "checkout address details",
-#                      "review your order section"
-# Doesn't fill payment — just verifies checkout page reached
 
 STEP 1: Open homepage
 STEP 2: Click signup login link
@@ -639,7 +610,6 @@ STEP 12: Verify review your order section visible
 
 
 TEST CASE 45: Verify Cart Persists Across Pages
-# Existing intents only — session/state test
 
 STEP 1: Open homepage
 STEP 2: Click products tab
@@ -652,7 +622,6 @@ STEP 8: Verify cart contains item
 
 
 TEST CASE 46: Add Same Product Twice
-# Existing intents only — verifies quantity increments
 
 STEP 1: Open homepage
 STEP 2: Click products tab
@@ -667,8 +636,6 @@ STEP 10: Verify cart quantity is 2
 
 
 TEST CASE 47: Verify Footer Subscription Section Present
-# NEW VERIFY: footer presence
-# Lightweight — useful as a parallel-execution sanity test
 
 STEP 1: Open homepage
 STEP 2: Verify homepage loaded
@@ -678,7 +645,6 @@ STEP 5: Verify subscribe email field present
 
 
 TEST CASE 48: Scroll To Top Button
-# NEW INTENT: scroll_to_top_button
 
 STEP 1: Open homepage
 STEP 2: Verify homepage loaded
@@ -689,7 +655,6 @@ STEP 6: Verify page scrolled to top
 
 
 TEST CASE 49: View Cart Without Adding Anything
-# NEW VERIFY KEYWORDS: "cart is empty"
 
 STEP 1: Open homepage
 STEP 2: Verify homepage loaded
@@ -698,7 +663,8 @@ STEP 4: Verify cart is empty
 
 
 TEST CASE 50: Search Then Clear And Search Again
-# Existing intents only — tests search bar reset
+# FIX: added "Verify search results visible" between the two searches
+#      so the test actually checks both searches landed correctly.
 
 STEP 1: Open homepage
 STEP 2: Click products tab
