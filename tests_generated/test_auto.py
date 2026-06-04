@@ -47,8 +47,8 @@ from enigne.test_executor import run_single_test
 # parse_user_stories() call is idempotent (cache hits when nothing
 # has changed) so workers don't all hammer the LLM.
 
-parse_user_stories("userstories.txt")
-generate_python_tests()
+#parse_user_stories("userstories.txt")
+#generate_python_tests()
 ALL_TESTS = load_generated_steps()
 
 

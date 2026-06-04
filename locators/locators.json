@@ -136,7 +136,7 @@
   },
   "recommended items section": {
     "by": "xpath",
-    "value": "//a[text()='women']",
+    "value": "//a[text()='(6)\npolo']",
     "confidence": 0.85
   },
   "bottom of page": {

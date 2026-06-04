@@ -20,6 +20,8 @@ Phase 1 of parallel execution:
 import pytest
 from utils.driver_factory import create_driver
 from utils.report_builder import generate_html_report
+from llm.test_generator import parse_user_stories
+from utils.script_generator import generate_python_tests
 
 
 # ──────────────────────────────────────────────────────────────────
@@ -54,6 +56,27 @@ def pytest_addoption(parser):
         default=False,
         help="Run Chrome in headless mode",
     )
+
+def pytest_configure(config):
+    """
+    Generate test steps once, in the controller process only,
+    BEFORE any xdist workers spawn.
+
+    Without this, workers each re-import test_auto.py and call
+    parse_user_stories() in parallel, causing JSON write races
+    and worker crashes during collection.
+
+    The `workerinput` attribute is set only on xdist workers,
+    so checking for its absence means "we're the controller".
+    """
+    if hasattr(config, "workerinput"):
+        # We're in an xdist worker — skip generation, controller
+        # has already done it and written the JSON.
+        return
+    print("\n[CONFIGURE] Generating test steps (controller only)...")
+    parse_user_stories("userstories.txt")
+    generate_python_tests()
+    print("[CONFIGURE] Generation complete.")
 
 
 # ──────────────────────────────────────────────────────────────────
