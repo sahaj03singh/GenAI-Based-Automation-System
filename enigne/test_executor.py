@@ -1,3 +1,4 @@
+import os
 """
 test_executor.py — Strict-mode test execution engine.
 
@@ -16,6 +17,7 @@ factored out into `run_single_test()`. The pytest layer in
 test_auto.py calls this directly per parametrised test case;
 run_tests() is kept only as a backward-compatible wrapper that
 loops over all test cases sequentially.
+import os
 """
 
 from utils.actions import execute_step, reset_session
@@ -70,7 +72,11 @@ def run_single_test(test_case):
 
     # ── Spawn a fresh Chrome for this test ───────────────────────
     try:
-        test_driver = create_driver()
+        # Read HEADLESS env var — set HEADLESS=1 to run without
+        # visible browser windows (faster, doesn't steal focus).
+        # The env var propagates to xdist workers automatically.
+        _headless = os.getenv("HEADLESS", "").lower() in ("1", "true", "yes")
+        test_driver = create_driver(headless=_headless)
     except Exception as e:
         print(f"❌ Could not start Chrome for this test: {e}")
         return {

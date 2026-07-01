@@ -401,13 +401,27 @@ def _confirm_post_login(driver):
 # ── INTENT RESOLVER ───────────────────────────────────────────────────────────
 
 def _resolve_intent(desc):
-    """Match description against site_config.intent_actions."""
-    intents = SITE_CONFIG.get("intent_actions", {})
-    for _, intent_cfg in intents.items():
-        if any(kw in desc for kw in intent_cfg.get("match", [])):
-            return intent_cfg
-    return None
+    """Match description against site_config.intent_actions.
 
+    Returns the intent whose `match` keyword list has the LONGEST
+    keyword that appears in `desc`. This ensures specific intents
+    (e.g. match=["madame brand"]) win over generic ones
+    (e.g. match=["brand link"]).
+
+    Without this, dict iteration order decides, which means the
+    first generic intent registered wins for every variant — the
+    locator-caching false-positive bug observed in the audit.
+    """
+    intents = SITE_CONFIG.get("intent_actions", {})
+    best_intent = None
+    best_score = 0
+    for _, intent_cfg in intents.items():
+        match_kws = intent_cfg.get("match", [])
+        for kw in match_kws:
+            if kw in desc and len(kw) > best_score:
+                best_score = len(kw)
+                best_intent = intent_cfg
+    return best_intent
 
 # ── INTENT EXECUTOR ───────────────────────────────────────────────────────────
 

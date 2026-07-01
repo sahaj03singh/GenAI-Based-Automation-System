@@ -268,7 +268,109 @@ SITE_OVERRIDES = {
             "wait_for_url_fragment": "/view_cart",
         },
 
-        # ── category_link ────────────────────────────────────────
+        # ──────────────────────────────────────────────────────────
+        #  SPECIFIC CATEGORY INTENTS
+        # ──────────────────────────────────────────────────────────
+        # Added 2026-06-04 to fix the locator-caching false-positive
+        # bug identified in the screenshot audit (Phase 2). Before
+        # this, every category test (Women/Men/Kids) resolved to the
+        # same generic `category_link` intent below, which picked the
+        # first sidebar item on page — always WOMEN. The score-based
+        # `_resolve_intent` in actions.py picks the intent whose
+        # longest matched keyword is in the description, so these
+        # specific intents win over the generic `category_link`.
+        "category_women": {
+            "type": "click_strategies",
+            "match": ["women category"],
+            "pre_wait": 1,
+            "scroll_before_click": True,
+            "strategies": [
+                ("xpath", "//a[@href='#Women']"),
+                ("xpath", "//a[normalize-space()='Women']"),
+            ],
+        },
+        "category_men": {
+            "type": "click_strategies",
+            "match": ["men category"],
+            "pre_wait": 1,
+            "scroll_before_click": True,
+            "strategies": [
+                ("xpath", "//a[@href='#Men']"),
+                ("xpath", "//a[normalize-space()='Men']"),
+            ],
+        },
+        "category_kids": {
+            "type": "click_strategies",
+            "match": ["kids category"],
+            "pre_wait": 1,
+            "scroll_before_click": True,
+            "strategies": [
+                ("xpath", "//a[@href='#Kids']"),
+                ("xpath", "//a[normalize-space()='Kids']"),
+            ],
+        },
+
+        # ──────────────────────────────────────────────────────────
+        #  SPECIFIC SUBCATEGORY INTENTS
+        # ──────────────────────────────────────────────────────────
+        # Same fix pattern as category. Clicking these requires the
+        # parent category to be expanded first (category_women etc.).
+        # The XPath targets the link inside /category_products/ URL.
+        "subcategory_dress": {
+            "type": "click_strategies",
+            "match": ["dress subcategory"],
+            "pre_wait": 1,
+            "strategies": [
+                ("xpath", "//a[contains(@href,'/category_products/') "
+                          "and normalize-space()='Dress']"),
+                ("xpath", "//a[normalize-space()='Dress']"),
+            ],
+        },
+        "subcategory_tops": {
+            "type": "click_strategies",
+            "match": ["tops subcategory"],
+            "pre_wait": 1,
+            "strategies": [
+                ("xpath", "//a[contains(@href,'/category_products/') "
+                          "and normalize-space()='Tops']"),
+                ("xpath", "//a[normalize-space()='Tops']"),
+            ],
+        },
+        "subcategory_saree": {
+            "type": "click_strategies",
+            "match": ["saree subcategory"],
+            "pre_wait": 1,
+            "strategies": [
+                ("xpath", "//a[contains(@href,'/category_products/') "
+                          "and normalize-space()='Saree']"),
+                ("xpath", "//a[normalize-space()='Saree']"),
+            ],
+        },
+        "subcategory_tshirts": {
+            "type": "click_strategies",
+            "match": ["tshirts subcategory"],
+            "pre_wait": 1,
+            "strategies": [
+                ("xpath", "//a[contains(@href,'/category_products/') "
+                          "and normalize-space()='Tshirts']"),
+                ("xpath", "//a[normalize-space()='Tshirts']"),
+            ],
+        },
+        "subcategory_jeans": {
+            "type": "click_strategies",
+            "match": ["jeans subcategory"],
+            "pre_wait": 1,
+            "strategies": [
+                ("xpath", "//a[contains(@href,'/category_products/') "
+                          "and normalize-space()='Jeans']"),
+                ("xpath", "//a[normalize-space()='Jeans']"),
+            ],
+        },
+
+        # ── category_link (GENERIC FALLBACK) ─────────────────────
+        # Kept as fallback for any unanticipated category/subcategory
+        # not covered by the specific intents above. Score-based
+        # resolver only picks this when no longer keyword matched.
         # Draft markers resolved:
         #   👉 FIX type            → click_first_match
         #   👉 FIX match           → restored from PREVIOUS working config
@@ -278,11 +380,7 @@ SITE_OVERRIDES = {
         "category_link": {
             "type": "click_first_match",
             "match": [
-                "women category", "men category", "kids category",
                 "category link",
-                "dress subcategory", "tops subcategory",
-                "tshirts subcategory", "jeans subcategory",
-                "saree subcategory",
             ],
             "pre_wait": 1,
             "scroll_before_click": True,
@@ -294,7 +392,58 @@ SITE_OVERRIDES = {
             ],
         },
 
-        # ── brand_link ───────────────────────────────────────────
+        # ──────────────────────────────────────────────────────────
+        #  SPECIFIC BRAND INTENTS
+        # ──────────────────────────────────────────────────────────
+        # Added 2026-06-04 for the same locator-caching fix. Before
+        # this, every brand test (Madame/H&M/Biba) hit the generic
+        # `brand_link` intent and clicked POLO (first brand in
+        # sidebar). These specific intents target each brand by its
+        # /brand_products/<Name> URL fragment.
+        "brand_polo": {
+            "type": "click_strategies",
+            "match": ["polo brand"],
+            "pre_wait": 1,
+            "scroll_before_click": True,
+            "strategies": [
+                ("xpath", "//a[contains(@href,'/brand_products/Polo')]"),
+                ("xpath", "//a[normalize-space()='Polo']"),
+            ],
+        },
+        "brand_madame": {
+            "type": "click_strategies",
+            "match": ["madame brand"],
+            "pre_wait": 1,
+            "scroll_before_click": True,
+            "strategies": [
+                ("xpath", "//a[contains(@href,'/brand_products/Madame')]"),
+                ("xpath", "//a[normalize-space()='Madame']"),
+            ],
+        },
+        "brand_hm": {
+            "type": "click_strategies",
+            "match": ["h&m brand"],
+            "pre_wait": 1,
+            "scroll_before_click": True,
+            "strategies": [
+                ("xpath", "//a[contains(@href,'/brand_products/H&M')]"),
+                ("xpath", "//a[normalize-space()='H&M']"),
+            ],
+        },
+        "brand_biba": {
+            "type": "click_strategies",
+            "match": ["biba brand"],
+            "pre_wait": 1,
+            "scroll_before_click": True,
+            "strategies": [
+                ("xpath", "//a[contains(@href,'/brand_products/Biba')]"),
+                ("xpath", "//a[normalize-space()='Biba']"),
+            ],
+        },
+
+        # ── brand_link (GENERIC FALLBACK) ────────────────────────
+        # Kept as fallback for any unanticipated brand not covered
+        # by the specific intents above.
         # Draft markers resolved:
         #   👉 FIX type            → click_first_match
         #   👉 FIX match           → restored
@@ -305,7 +454,6 @@ SITE_OVERRIDES = {
         "brand_link": {
             "type": "click_first_match",
             "match": [
-                "polo brand", "madame brand", "h&m brand", "biba brand",
                 "brand link",
             ],
             "pre_wait": 1,
