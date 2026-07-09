@@ -1079,14 +1079,12 @@ def _verify_step(driver, description):
                 if operator == "gte": return current >= value
                 if operator == "lt":  return current < value
 
-        words = [w for w in desc.split() if len(w) > 3]
-        if words:
-            if any(w in url for w in words):
-                return True
-            if any(w in src for w in words):
-                return True
-
-        return True
+        # STRICT MODE: no keywords in site_config.verify_keywords
+        # and no page_url_fragments or count_verifications matched.
+        # This verify target is unknown — fail rather than guess.
+        # Previously fell through to loose word-matching which
+        # produced silent false positives.
+        return False
 
     except Exception:
         return False

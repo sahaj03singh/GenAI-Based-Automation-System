@@ -20,6 +20,18 @@ PROVENANCE TAGS
 Match phrases are kept identical to the previous working production
 config; introducing new ones risks re-routing existing steps (a bug we
 hit once and reverted from).
+
+═══════════════════════════════════════════════════════════════
+2026-07-03 UPDATE — Phase 1+2 additions for verify-strictness fix
+═══════════════════════════════════════════════════════════════
+After the verify-strictness fix in utils/actions.py (loose fallback
+removed), many tests failed because their verify targets weren't
+registered. Added:
+  - ~23 new verify_keywords entries for legitimate page elements
+  - contact form field intents (name/email/subject/message/submit)
+  - cart_quantity form_field intent
+Entries added are marked with # [2026-07-03] tags.
+═══════════════════════════════════════════════════════════════
 """
 
 from configPage.base_config import build_site_config
@@ -123,6 +135,117 @@ SITE_OVERRIDES = {
             "login to your account", "new user signup",
             "email address", "password",
         ],
+
+        # ═══════════════════════════════════════════════════════════
+        # [2026-07-03] Phase 1 additions — verify_keywords for
+        # tests that were previously matching via loose fallback.
+        # Each keyword list is text that actually appears on the
+        # target page (verified against automationexercise.com).
+        # ═══════════════════════════════════════════════════════════
+
+        # ── Contact / Contact-us page ──
+        "contact page loaded": [
+            "get in touch", "feedback for us", "your message here",
+        ],
+        "contact us page loaded": [
+            "get in touch", "feedback for us", "your message here",
+        ],
+        "contact form visible": [
+            "get in touch", "your name", "your email", "your message",
+        ],
+        "message sent": [
+            "success! your details have been submitted successfully",
+            "your details have been submitted",
+        ],
+
+        # ── Checkout page ──
+        "checkout page": [
+            "address details", "review your order", "place order",
+        ],
+        "checkout address details visible": [
+            "address details", "delivery address", "billing address",
+        ],
+        "review your order section visible": [
+            "review your order", "total amount",
+        ],
+
+        # ── Navigation destinations ──
+        "test cases page": [
+            "test cases", "register user", "login user",
+            "logout user",
+        ],
+        "api testing page": [
+            "apis list for practice", "api name",
+        ],
+        "video tutorials page": [
+            "automation practice", "video tutorials",
+        ],
+
+        # ── Account / Register ──
+        "account information page": [
+            "enter account information", "date of birth",
+            "sign up for our newsletter", "receive special offers",
+        ],
+
+        # ── Section-presence checks ──
+        "featured items section visible": [
+            "features items",
+        ],
+        "recommended items section visible": [
+            "recommended items",
+        ],
+        "reviews section visible": [
+            "write your review",
+        ],
+        "write your review section visible": [
+            "write your review", "add review here",
+        ],
+        "subscription section visible": [
+            "subscription", "get the most recent updates",
+        ],
+        "subscribe email field present": [
+            "susbscribe_email", "your email address",
+            # note: site has typo "susbscribe_email" as the ID — kept
+        ],
+
+        # ── Product detail fields ──
+        "product has price displayed": [
+            "rs.",
+        ],
+        "product has availability shown": [
+            "availability:", "in stock",
+        ],
+        "product has brand listed": [
+            "brand:",
+        ],
+
+        # ── Subscription success ──
+        "subscription success": [
+            "you have been successfully subscribed",
+        ],
+        "subscription success message": [
+            "you have been successfully subscribed",
+        ],
+
+        # ── Review submitted ──
+        "review submitted": [
+            "thank you for your review", "review has been submitted",
+            "review has been posted",
+        ],
+
+        # ── Logout state ──
+        # When logged out, the "Signup / Login" link is visible.
+        # (When logged in, it's replaced by "Logout".)
+        "logged out": [
+            "signup / login",
+        ],
+
+        # NOTE — targets deliberately NOT added (site cannot produce them):
+        #   "no results message" — empty/nonsense search returns all products
+        #   "error message" (quantity 0/negative) — site accepts silently
+        #   "email format error" / "required field error" — HTML5 browser
+        #     validation tooltips, not in page source
+        # Tests using these targets will genuinely fail — that's honest.
     },
 
     # ──────────────────────────────────────────────────────────────
@@ -537,6 +660,78 @@ SITE_OVERRIDES = {
                           "'LOGIN','login'),'login')]"),
             ],
             "wait_for_url_fragment": "/",
+        },
+
+        # ═══════════════════════════════════════════════════════════
+        # [2026-07-03] Phase 2 additions — action-level intents
+        # ═══════════════════════════════════════════════════════════
+
+        # ── contact_name / email / subject / message form fields ──
+        # For the "Contact Us Form Submission" test. The site's
+        # contact form has these named fields directly (id/name).
+        "contact_name": {
+            "type": "form_field",
+            "match": [
+                "contact name", "contact us name",
+            ],
+            "field_hints": ["name"],
+            "field_type": "text",
+            "data_key": "contact_name",
+        },
+        "contact_email": {
+            "type": "form_field",
+            "match": [
+                "contact email", "contact us email",
+            ],
+            "field_hints": ["email"],
+            "field_type": "email",
+            "data_key": "contact_email",
+        },
+        "contact_subject": {
+            "type": "form_field",
+            "match": [
+                "contact subject", "contact us subject", "subject field",
+            ],
+            "field_hints": ["subject"],
+            "field_type": "text",
+            "data_key": "contact_subject",
+        },
+        "contact_message": {
+            "type": "form_field",
+            "match": [
+                "contact message", "contact us message", "your message",
+                "message body",
+            ],
+            "field_hints": ["message"],
+            "field_type": "text",
+            "data_key": "contact_message",
+        },
+        "submit_contact_button": {
+            "type": "click_strategies",
+            "match": [
+                "submit contact button", "submit contact form",
+                "send message", "submit message",
+            ],
+            "strategies": [
+                ("css", "input[name='submit']"),
+                ("xpath", "//input[@type='submit' and @value='Submit']"),
+                ("xpath", "//form[contains(@action,'contact')]"
+                          "//input[@type='submit']"),
+            ],
+        },
+
+        # ── cart_quantity form_field ──
+        # For the "Update Quantity In Cart Page" test. The cart page
+        # has a quantity input inside each cart row.
+        "cart_quantity": {
+            "type": "form_field",
+            "match": [
+                "cart quantity", "update cart quantity",
+                "quantity in cart", "quantity field cart",
+            ],
+            "field_hints": ["quantity"],
+            "field_type": "text",
+            "data_key": "cart_quantity",
         },
 
         # ── filter_compare intents (4 × identical structure) ─────

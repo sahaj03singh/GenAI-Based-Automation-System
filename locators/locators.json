@@ -31,12 +31,12 @@
   },
   "contact name": {
     "by": "xpath",
-    "value": "//input[@name='name']",
+    "value": "//a[text()='contact us']",
     "confidence": 0.85
   },
   "contact subject": {
     "by": "xpath",
-    "value": "//input[@name='subject']",
+    "value": "//a[text()='contact us']",
     "confidence": 0.85
   },
   "submit contact form": {
@@ -46,7 +46,7 @@
   },
   "continue shopping": {
     "by": "xpath",
-    "value": "//button[text()='continue shopping']",
+    "value": "//button[@id='button-review']",
     "confidence": 0.85
   },
   "signup name": {
@@ -136,7 +136,7 @@
   },
   "recommended items section": {
     "by": "xpath",
-    "value": "//a[text()='home']",
+    "value": "//a[text()='women']",
     "confidence": 0.85
   },
   "bottom of page": {
@@ -166,12 +166,37 @@
   },
   "subscription email": {
     "by": "xpath",
-    "value": "//input[@id='subscription_email']",
+    "value": "//input[@id='email']",
     "confidence": 0.85
   },
   "password": {
     "by": "xpath",
     "value": "//input[@name='password']",
+    "confidence": 0.85
+  },
+  "signup / login": {
+    "by": "xpath",
+    "value": "//a[text()='signup / login']",
+    "confidence": 0.85
+  },
+  "api testing link": {
+    "by": "xpath",
+    "value": "//a[text()='api testing']",
+    "confidence": 0.85
+  },
+  "test cases link": {
+    "by": "xpath",
+    "value": "//a[text()='test cases']",
+    "confidence": 0.85
+  },
+  "video tutorials link": {
+    "by": "xpath",
+    "value": "//a[text()='video tutorials']",
+    "confidence": 0.85
+  },
+  "bottom": {
+    "by": "xpath",
+    "value": "//a[@id='scrollUp']",
     "confidence": 0.85
   }
 }
